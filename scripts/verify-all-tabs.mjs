@@ -73,13 +73,13 @@ try {
   await new Promise(r => setTimeout(r, 1500));
 
   const tabs = [
-    'Command Center',
-    'Research & Theses',
-    'Task Management',
-    'Syndicate Chat',
-    'Portfolio & ROI',
-    'Staff & Directory',
-    'Admin & RBAC Control',
+    'Dashboard',
+    'Research Pipeline',
+    'Tasks',
+    'Team Chat',
+    'Analytics & Reports',
+    'Staff Management',
+    'Admin Settings',
     'System Architecture'
   ];
 

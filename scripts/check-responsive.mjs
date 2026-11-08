@@ -89,7 +89,7 @@ try {
   await capture('test-tablet-768-research', 768, 1024);
 
   // Phone (iPhone 390px)
-  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Command')); if (btn) btn.click(); })()`);
+  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Dashboard')); if (btn) btn.click(); })()`);
   await capture('test-mobile-390-overview', 390, 844);
   await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Research')); if (btn) btn.click(); })()`);
   await capture('test-mobile-390-research', 390, 844);
@@ -99,7 +99,7 @@ try {
   await capture('test-mobile-390-chat', 390, 844);
 
   // Compact Phone (360px)
-  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Command')); if (btn) btn.click(); })()`);
+  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Dashboard')); if (btn) btn.click(); })()`);
   await capture('test-mobile-360-overview', 360, 740);
   await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Research')); if (btn) btn.click(); })()`);
   await capture('test-mobile-360-research', 360, 740);

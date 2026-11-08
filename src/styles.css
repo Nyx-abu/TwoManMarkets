@@ -995,7 +995,8 @@ a {
 .color-dot.lost { background: var(--loss-red); }
 .color-dot.pending { background: var(--pending-amber); }
 
-/* Syndicate Announcement Banner */
+/* Desk Announcement Banner */
+.desk-announcement-card,
 .syndicate-announcement-card {
   background: var(--bg-card);
   border: 1px solid var(--border-medium);
@@ -1175,6 +1176,12 @@ a {
 
 .status-pill.passed {
   background: rgba(148, 163, 184, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: var(--text-muted);
+}
+
+.status-pill.inactive {
+  background: rgba(148, 163, 184, 0.08);
   border: 1px solid rgba(148, 163, 184, 0.2);
   color: var(--text-muted);
 }
@@ -1703,7 +1710,7 @@ a {
   color: var(--text-secondary);
 }
 
-.form-input, .form-select, .form-textarea {
+.form-input, .form-select, .form-textarea, .category-dropdown {
   background: var(--bg-card-subtle);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-md);
@@ -1714,7 +1721,18 @@ a {
   transition: border-color 0.15s ease;
 }
 
-.form-input:focus, .form-select:focus, .form-textarea:focus {
+.category-dropdown {
+  padding: 7px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.category-dropdown option, .form-select option {
+  background: #181b26;
+  color: #f4f4f5;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus, .category-dropdown:focus {
   border-color: var(--emerald);
   box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
@@ -2359,6 +2377,7 @@ a {
     width: 100%;
   }
 
+  .desk-announcement-card,
   .syndicate-announcement-card {
     flex-direction: column;
     align-items: flex-start;
@@ -2472,3 +2491,267 @@ a {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   Core Feature Additions: Staff, Tasks, Analytics, Admin & Modals
+   ========================================================================== */
+
+/* Task Progress Monitor Strip */
+.task-monitor-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-monitor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.task-progress-bar-track {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-card-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.task-progress-bar-fill {
+  height: 100%;
+  background: var(--emerald);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.task-stats-chips {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.task-stat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.task-stat-chip strong {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+/* Category Breakdown Grid in Analytics */
+.category-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.category-perf-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-perf-card:hover {
+  border-color: var(--border-medium);
+}
+
+.category-perf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-perf-rate {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--win-green);
+}
+
+.category-mini-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-card-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.category-mini-fill {
+  height: 100%;
+  background: var(--emerald);
+  border-radius: var(--radius-full);
+}
+
+.category-perf-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Employee Profile Details Grid */
+.profile-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.profile-metric-box {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-metric-lbl {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.profile-metric-val {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.profile-metric-val.green {
+  color: var(--win-green);
+}
+
+/* Permissions Checklist */
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.permission-toggle-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.permission-toggle-item:hover {
+  border-color: var(--border-medium);
+}
+
+.permission-toggle-item input[type="checkbox"] {
+  accent-color: var(--emerald);
+  margin-top: 3px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.permission-toggle-text strong {
+  display: block;
+  font-size: 12px;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.permission-toggle-text p {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Audit Log Table / List */
+.audit-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.audit-log-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-card-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  font-size: 12px;
+}
+
+.audit-log-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.audit-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.audit-badge.auth { color: var(--info-blue); border-color: var(--info-blue-border); background: var(--info-blue-bg); }
+.audit-badge.capital { color: var(--win-green); border-color: var(--win-green-border); background: var(--win-green-bg); }
+.audit-badge.task { color: var(--pending-amber); border-color: var(--pending-amber-border); background: var(--pending-amber-bg); }
+.audit-badge.announcement { color: var(--quant-violet); border-color: rgba(168, 85, 247, 0.3); background: var(--quant-violet-bg); }
+
+/* Password Reset Checklist */
+.pw-requirements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg-card-subtle);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.pw-req-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pw-req-item.met {
+  color: var(--win-green);
+}
+

@@ -105,7 +105,7 @@ try {
 
   // Mobile view test
   await command('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
-  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Command')); if (btn) btn.click(); })()`);
+  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Dashboard')); if (btn) btn.click(); })()`);
   await capture('remodeled-mobile-overview');
 
 } finally {

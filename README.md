@@ -1,18 +1,18 @@
-# TwoManMarkets — Syndicate Operations & Research Terminal
+# TwoManMarkets — Internal Operations & Prediction Markets Dashboard
 
-A modern, institutional-grade internal operations terminal and prediction market research hub built for **TwoManMarkets**.
+A modern, institutional-grade internal management dashboard and prediction market research hub built for **TwoManMarkets**.
 
 ![TwoManMarkets Header](public/logo-full.png)
 
 ## Overview
 
-TwoManMarkets operates an investment syndicate researching prediction markets (Polymarket, Kalshi) and sports markets (Pinnacle, DraftKings, Betfair). This centralized platform unites:
+TwoManMarkets is a proprietary research and investment desk focused on prediction markets (Polymarket, Kalshi) and sports markets (Pinnacle, DraftKings, Betfair). This centralized platform unites:
 
-1. **Prediction Market Research Portal**: Staff analysts submit structured theses with market odds, implied probabilities, calculated edge, and proposed stakes.
-2. **Owner Capital Allocation Engine**: The two Co-Owners (Luis & Partner) review submitted theses, size positions, and allocate capital with one click.
+1. **Prediction Market Research Pipeline**: Staff analysts submit structured theses with market odds, implied probabilities, calculated edge, and proposed stakes.
+2. **Owner Capital Allocation Engine**: The two Co-Owners (Luis & Partner) review submitted theses, size positions via disciplined bankroll guidelines, and allocate capital with one click.
 3. **Settlement Ledger & Analytics**: Tracks outcomes (Won/Lost/Push), computes firm-wide Net P&L and ROI, and ranks analysts on a monthly performance leaderboard.
-4. **Task Operations Board**: Linear-grade 3-column Kanban board for sprint deliverables and research quotas.
-5. **Syndicate Chat & Announcements**: Dedicated channels (`#announcements`, `#sports-picks`, `#macro-theses`, `#general`) and 1-on-1 direct messages.
+4. **Task Management Board**: 3-column Kanban board for sprint deliverables and research quotas.
+5. **Team Chat & Announcements**: Dedicated channels (`#announcements`, `#sports-picks`, `#macro-theses`, `#general`) and 1-on-1 direct messages.
 6. **Executive System Architecture**: Embedded system blueprint and security documentation for leadership review.
 
 ---
@@ -51,11 +51,11 @@ This repository is pre-configured for instant deployment on Vercel:
    - **Framework Preset**: Vite
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
-4. Click **Deploy**. Your live terminal preview will be available instantly on a custom Vercel domain (e.g. `twomanmarkets.vercel.app`).
+4. Click **Deploy**. Your live dashboard preview will be available instantly on a custom Vercel domain (e.g. `twomanmarkets.vercel.app`).
 
 ---
 
 ## Client Architecture & Deliverables
 
-- [Executive System Blueprint](docs/EXECUTIVE_ARCHITECTURE_PROPOSAL.md) — Plain-English architectural proposal ready to send to Luis.
+- [Executive System Blueprint](docs/EXECUTIVE_ARCHITECTURE_PROPOSAL.md) — Plain-English architectural proposal for Luis & partners.
 - [Project Master Specification](PROJECT_MASTER_SPEC.md) — Technical operating specification and data schema.
