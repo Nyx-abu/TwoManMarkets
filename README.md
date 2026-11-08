@@ -1,4 +1,4 @@
-# TwoManMarkets — Internal Operations & Prediction Markets Dashboard
+# TwoManMarkets | Internal Operations & Prediction Markets Dashboard
 
 A modern, institutional-grade internal management dashboard and prediction market research hub built for **TwoManMarkets**.
 
@@ -55,7 +55,6 @@ This repository is pre-configured for instant deployment on Vercel:
 
 ---
 
-## Client Architecture & Deliverables
+## Architecture Documentation
 
-- [Executive System Blueprint](docs/EXECUTIVE_ARCHITECTURE_PROPOSAL.md) — Plain-English architectural proposal for Luis & partners.
-- [Project Master Specification](PROJECT_MASTER_SPEC.md) — Technical operating specification and data schema.
+- [Executive System Blueprint](docs/EXECUTIVE_ARCHITECTURE_PROPOSAL.md): Plain-English architectural proposal for TwoManMarkets leadership.

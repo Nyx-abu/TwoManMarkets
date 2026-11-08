@@ -9,7 +9,6 @@ dist/
 .env
 .env.*
 !.env.example
-PROJECT_MASTER_SPEC.md
 
 .vercel
 *.exe
@@ -19,5 +18,7 @@ PROJECT_MASTER_SPEC.md
 .codex/
 .cursor/
 .gemini/
+.openai/
 .opencode/
 .pi/
+.vscode/
