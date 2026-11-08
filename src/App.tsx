@@ -385,7 +385,7 @@ const INITIAL_RESEARCH: ResearchItem[] = [
     authorInitials: 'MC',
     date: 'Today 10:15 AM',
     status: 'Invested',
-    thesis: 'Chiefs defensive efficiency ranks #2 post-bye. Line moved against public sentiment due to sharp early action. Internal power ranking indicates a -4.0 fair spread, creating a +5.2% value gap.',
+    thesis: 'Chiefs defense coming off bye week healthy. Line opened at -3 and dipped to -2.5 on early public action, solid entry before kickoff.',
     sourceUrl: 'https://pinnacle.com/football/nfl/chiefs-49ers'
   },
   {
@@ -402,7 +402,7 @@ const INITIAL_RESEARCH: ResearchItem[] = [
     authorInitials: 'JL',
     date: 'Today 08:30 AM',
     status: 'Pending',
-    thesis: 'Cooling non-farm payrolls and revised core PCE prints reinforce FOMC consensus. Kalshi contract trades at 78¢ vs internal econometric implied target of 84.5¢.',
+    thesis: 'Recent jobs data and inflation prints point to a 25bps rate cut in December. Kalshi contract trades at 78 cents which looks undervalued compared to Polymarket.',
     sourceUrl: 'https://kalshi.com/markets/fed-rate-dec'
   },
   {
@@ -422,7 +422,7 @@ const INITIAL_RESEARCH: ResearchItem[] = [
     payoutAmount: 2900,
     netProfit: 1100,
     roi: 61.1,
-    thesis: 'Institutional ETF inflows averaged $420M/day with aggregate orderbook bid density firm at $82K support. Target settlement achieved ahead of schedule.',
+    thesis: 'Strong ETF spot inflows over the last 3 days with solid support above 82k. Target hit and settled early.',
     sourceUrl: 'https://polymarket.com/market/btc-85k-nov'
   },
   {
@@ -442,12 +442,12 @@ const INITIAL_RESEARCH: ResearchItem[] = [
     payoutAmount: 1960,
     netProfit: 1160,
     roi: 145.0,
-    thesis: 'Saliba & Gabriel defensive duo intact; Chelsea away xG under 0.78 in last 5 derbies. Exchange price offered mispriced plus-money return.',
+    thesis: 'Saliba and Gabriel both starting at center back. Chelsea struggling to score away in recent derbies, odds on clean sheet at +145 are great value.',
     sourceUrl: 'https://betfair.com/football/premier-league'
   },
   {
     id: 'TMM-1038',
-    market: 'State Senate Special Election — Democratic Win',
+    market: 'State Senate Special Election - Democratic Win',
     category: 'Politics',
     book: 'Kalshi',
     odds: '54¢ (54%)',
@@ -459,7 +459,7 @@ const INITIAL_RESEARCH: ResearchItem[] = [
     authorInitials: 'SR',
     date: 'Nov 5, 2026',
     status: 'Passed',
-    thesis: 'Early voting turnout model showed volatile rural shift. Risk-adjusted Kelly sizing requires minimum +3% edge; passed due to insufficient safety margin.',
+    thesis: 'Turnout numbers in rural precincts are unpredictable right now. Not enough edge to justify locking up capital here.',
     sourceUrl: 'https://kalshi.com/markets/senate-election'
   },
   {
@@ -479,7 +479,7 @@ const INITIAL_RESEARCH: ResearchItem[] = [
     payoutAmount: 0,
     netProfit: -1200,
     roi: -100.0,
-    thesis: 'High pace-factor projection. Warriors entered Q4 on track but suffered severe 3-pt cold streak (2/14) closing at 114 points.',
+    thesis: 'Expected high pace game. Warriors were on track going into the 4th quarter but missed almost every three in the final 6 minutes to finish at 114.',
     sourceUrl: 'https://draftkings.com/sportsbook/nba'
   }
 ];
@@ -487,8 +487,8 @@ const INITIAL_RESEARCH: ResearchItem[] = [
 const INITIAL_TASKS: TaskItem[] = [
   {
     id: 'task-1',
-    title: 'Model NFL Week 10 Spread Variance',
-    description: 'Reconcile injury report impacts on Chiefs, Bills, and Ravens lines before Friday line moves.',
+    title: 'Check Chiefs vs 49ers line on DraftKings',
+    description: 'Compare spread with Pinnacle and submit pick before Friday evening.',
     assignee: 'Maya Chen',
     assigneeInitials: 'MC',
     dueDate: 'Today · 5:00 PM',
@@ -497,18 +497,18 @@ const INITIAL_TASKS: TaskItem[] = [
   },
   {
     id: 'task-2',
-    title: 'Audit Kalshi Q4 Inflation Contracts',
-    description: 'Extract implied yield curve probability distributions ahead of upcoming CPI print.',
+    title: 'Review Kalshi December Fed rate contract',
+    description: 'See if price moved past 80 cents after the morning jobs report.',
     assignee: 'Jordan Lee',
     assigneeInitials: 'JL',
-    dueDate: 'Nov 10',
+    dueDate: 'Tomorrow',
     priority: 'High',
     status: 'In Progress'
   },
   {
     id: 'task-3',
-    title: 'Deep-dive Polymarket SOL/ETH Volume',
-    description: 'Evaluate order-book slippage and fee friction for high-conviction liquidity allocations.',
+    title: 'Check Polymarket crypto volume trends',
+    description: 'Look at 85k BTC market depth to see if liquidity is holding.',
     assignee: 'Sam Rivera',
     assigneeInitials: 'SR',
     dueDate: 'Nov 11',
@@ -517,20 +517,20 @@ const INITIAL_TASKS: TaskItem[] = [
   },
   {
     id: 'task-4',
-    title: 'Weekend Settlement Reconciliation',
-    description: 'Log verified outcomes, execute returns into ledger, and update hit-rates.',
-    assignee: 'Jordan Lee',
-    assigneeInitials: 'JL',
-    dueDate: 'Completed Nov 7',
+    title: 'Test creating staff accounts and reset passwords',
+    description: 'Make sure new analyst logins work and permissions save properly.',
+    assignee: 'Luis',
+    assigneeInitials: 'LB',
+    dueDate: 'Completed yesterday',
     priority: 'Medium',
     status: 'Completed'
   },
   {
     id: 'task-5',
-    title: 'Risk & Capital Exposure Assessment',
-    description: 'Verify category concentration does not exceed 35% on single sport markets.',
-    assignee: 'Luis',
-    assigneeInitials: 'LB',
+    title: 'Verify weekend soccer settlements',
+    description: 'Double check payout numbers on the Arsenal clean sheet bet.',
+    assignee: 'Maya Chen',
+    assigneeInitials: 'MC',
     dueDate: 'Completed Nov 6',
     priority: 'Low',
     status: 'Completed'
@@ -545,7 +545,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'LB',
       time: 'Yesterday 09:00 AM',
-      text: 'Desk Notice: Super Bowl rematch lines and Kalshi December rate cut lines have capital allocated. Please keep all model updates in the #sports-picks and #macro-theses channels.',
+      text: 'Hey team, testing out the new internal dashboard today. Please submit all sports and prediction market picks through the Research tab instead of DMing screenshots.',
       isAnnouncement: true
     },
     {
@@ -554,7 +554,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'LB',
       time: 'Today 08:00 AM',
-      text: 'Reminder: Any pick proposed with under +3.0% edge must include explicit hedge rationale. Capital discipline is priority #1.',
+      text: 'Check your assigned tasks in the Tasks tab and let me know if anything looks buggy or if you have suggestions.',
       isAnnouncement: true
     }
   ],
@@ -565,7 +565,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'STAFF',
       initials: 'MC',
       time: '10:14 AM',
-      text: 'Just submitted TMM-1042 (Chiefs -2.5). Pinnacle has heavy limit volume holding steady. Suggested $1,500 sizing.'
+      text: 'pinnacle just moved Chiefs to -2.5, submitted research in the tab with notes'
     },
     {
       id: 'c-4',
@@ -573,7 +573,15 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'LB',
       time: '10:20 AM',
-      text: 'Reviewed and approved. Order executed at -110. Let’s track line movements leading up to kickoff.'
+      text: 'looks good Maya, approved and put in $1,500 at -110'
+    },
+    {
+      id: 'c-5b',
+      sender: 'Maya Chen',
+      role: 'STAFF',
+      initials: 'MC',
+      time: '10:22 AM',
+      text: 'sweet, watching the injury report today to see if line shifts again'
     }
   ],
   '#macro-theses': [
@@ -583,7 +591,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'STAFF',
       initials: 'JL',
       time: '08:35 AM',
-      text: 'Fed Dec Cut contract on Kalshi is lagging Polymarket by 4 points. Arbitrage / fundamental edge is active.'
+      text: 'fed dec rate cut on kalshi is trading at 78 cents right now'
     },
     {
       id: 'c-6',
@@ -591,7 +599,15 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'STAFF',
       initials: 'JL',
       time: '08:42 AM',
-      text: 'Thesis ticket TMM-1041 is ready in the queue for Luis & Alex to size.'
+      text: 'submitted research for review, thinking we size this before tomorrow'
+    },
+    {
+      id: 'c-6b',
+      sender: 'Alex (Partner)',
+      role: 'OWNER',
+      initials: 'AM',
+      time: '08:45 AM',
+      text: 'checking now Jordan, will review in a sec'
     }
   ],
   '#general': [
@@ -601,7 +617,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'STAFF',
       initials: 'SR',
       time: '09:12 AM',
-      text: 'Morning everyone! Bitcoin holding steady above $85K locked in +$1,100 profit on TMM-1040.'
+      text: 'morning guys! btc hit 85k overnight so that polymarket bet settled won'
     },
     {
       id: 'c-8',
@@ -609,7 +625,23 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'LB',
       time: '09:15 AM',
-      text: 'Great work Sam. Solid research execution on the ETF liquidity flow.'
+      text: 'nice catch on that one Sam'
+    },
+    {
+      id: 'c-9',
+      sender: 'Maya Chen',
+      role: 'STAFF',
+      initials: 'MC',
+      time: '09:18 AM',
+      text: 'the dark theme looks so much cleaner than our old setup haha'
+    },
+    {
+      id: 'c-10',
+      sender: 'Jordan Lee',
+      role: 'STAFF',
+      initials: 'JL',
+      time: '09:20 AM',
+      text: 'fr way easier to track tasks here'
     }
   ],
   'Maya Chen': [
@@ -619,7 +651,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'LB',
       time: 'Yesterday 04:30 PM',
-      text: 'Hey Maya, how is the injury variance model looking for NFL Week 10?'
+      text: 'hey Maya did you get a chance to check the nfl week 10 numbers?'
     },
     {
       id: 'c-dm-2',
@@ -627,7 +659,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'STAFF',
       initials: 'MC',
       time: 'Yesterday 04:35 PM',
-      text: 'Looking strong. Chiefs line moved favorably to -2.5. Submitting the ticket now.'
+      text: 'yeah just submitted the chiefs pick, checking bills game next'
     }
   ],
   'Jordan Lee': [
@@ -637,7 +669,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'AM',
       time: 'Today 08:15 AM',
-      text: 'Jordan, make sure the Kalshi inflation spread accounts for Thursday morning revisions.'
+      text: 'hey Jordan take a look at the kalshi rates when you get a min'
     },
     {
       id: 'c-dm-4',
@@ -645,7 +677,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'STAFF',
       initials: 'JL',
       time: 'Today 08:20 AM',
-      text: 'On it Alex. Factored into ticket TMM-1041.'
+      text: 'on it, posting notes in #macro-theses now'
     }
   ],
   'Sam Rivera': [
@@ -655,7 +687,15 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'LB',
       time: 'Nov 6, 2026',
-      text: 'Sam, solid execution on the BTC target.'
+      text: 'nice call on the btc bet yesterday'
+    },
+    {
+      id: 'c-dm-5b',
+      sender: 'Sam Rivera',
+      role: 'STAFF',
+      initials: 'SR',
+      time: 'Nov 6, 2026',
+      text: 'thanks Luis! looking into solana markets next'
     }
   ],
   'Alex (Partner)': [
@@ -665,7 +705,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'LB',
       time: 'Today 07:30 AM',
-      text: 'Morning Alex, firm capital allocation stands at $60,200 total active. Reviewing Jordan ticket.'
+      text: 'morning Alex, reviewing Jordans kalshi pick right now. let me know if you want to split the stake.'
     }
   ]
 };
@@ -674,7 +714,7 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
   {
     id: 'n-1',
     title: 'New Research Submitted',
-    message: 'Jordan submitted TMM-1041 (US Fed Rate Cut in Dec)',
+    message: 'Jordan submitted research on US Fed Rate Cut (Kalshi)',
     time: '25 min ago',
     read: false,
     type: 'research'
@@ -690,7 +730,7 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
   {
     id: 'n-3',
     title: 'Task Assigned',
-    message: 'New urgent task: Model NFL Week 10 Spread Variance',
+    message: 'New urgent task: Check Chiefs vs 49ers line on DraftKings',
     time: '2 hrs ago',
     read: false,
     type: 'task'
@@ -702,7 +742,7 @@ const INITIAL_AUDIT_LOGS: AuditLogItem[] = [
     id: 'aud-1',
     actor: 'Luis',
     actorRole: 'OWNER',
-    action: 'Allocated $1,500 stake into TMM-1042 (Chiefs -2.5)',
+    action: 'Allocated $1,500 stake on Chiefs vs 49ers (-110)',
     category: 'CAPITAL',
     timestamp: 'Today 10:20 AM'
   },
@@ -710,7 +750,7 @@ const INITIAL_AUDIT_LOGS: AuditLogItem[] = [
     id: 'aud-2',
     actor: 'Jordan Lee',
     actorRole: 'STAFF',
-    action: 'Submitted research thesis TMM-1041 (US Fed Rate Cut in Dec)',
+    action: 'Submitted research on US Fed Rate Cut in Dec (Kalshi)',
     category: 'AUTH',
     timestamp: 'Today 08:30 AM'
   },
@@ -718,7 +758,7 @@ const INITIAL_AUDIT_LOGS: AuditLogItem[] = [
     id: 'aud-3',
     actor: 'Luis',
     actorRole: 'OWNER',
-    action: 'Published desk announcement: "Desk Priority · Kalshi & NFL Week 10 Allocations"',
+    action: 'Posted announcement: "Dashboard Testing & Weekend Research"',
     category: 'ANNOUNCEMENT',
     timestamp: 'Today 08:00 AM'
   },
@@ -726,7 +766,7 @@ const INITIAL_AUDIT_LOGS: AuditLogItem[] = [
     id: 'aud-4',
     actor: 'Alex (Partner)',
     actorRole: 'OWNER',
-    action: 'Verified security permissions for Sports Quantitative Desk',
+    action: 'Updated permissions for Sports Quantitative Desk',
     category: 'STAFF',
     timestamp: 'Yesterday 04:15 PM'
   },
@@ -734,7 +774,7 @@ const INITIAL_AUDIT_LOGS: AuditLogItem[] = [
     id: 'aud-5',
     actor: 'Maya Chen',
     actorRole: 'STAFF',
-    action: 'Updated status of task "Model NFL Week 10 Spread Variance" to In Progress',
+    action: 'Updated status of task "Check Chiefs vs 49ers line on DraftKings" to In Progress',
     category: 'TASK',
     timestamp: 'Yesterday 02:00 PM'
   },
@@ -749,10 +789,10 @@ const INITIAL_AUDIT_LOGS: AuditLogItem[] = [
 ];
 
 const INITIAL_ANNOUNCEMENT: DeskAnnouncement = {
-  title: 'Desk Priority · Kalshi & NFL Week 10 Allocations',
-  body: 'Capital deployed into TMM-1042 (Chiefs -2.5) and pending review on TMM-1041. Analysts should review secondary injury releases before 4 PM EST today.',
+  title: 'Dashboard Testing & Weekend Research',
+  body: 'Hey team, we are testing the new internal dashboard. Please submit all sports and prediction market picks through the Research tab. Drop any feedback in #general.',
   author: 'Luis (Co-Owner)',
-  postedAt: 'Today 08:00 AM',
+  postedAt: 'Today 09:30 AM',
   priority: 'Normal'
 };
 
