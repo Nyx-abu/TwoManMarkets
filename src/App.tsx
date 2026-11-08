@@ -1371,11 +1371,6 @@ export default function App() {
                 {activeTab === 'blueprint' && 'System Architecture'}
               </span>
             </div>
-
-            <div className="market-status-pill">
-              <span className="pulsing-dot" />
-              <span>MARKETS ACTIVE</span>
-            </div>
           </div>
 
           <div className="topbar-right">

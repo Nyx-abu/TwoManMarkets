@@ -378,20 +378,6 @@ a {
   font-weight: 600;
 }
 
-.market-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  background: var(--emerald-soft);
-  border: 1px solid var(--emerald-border);
-  color: var(--emerald);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
 .pulsing-dot {
   width: 6px;
   height: 6px;
@@ -2186,9 +2172,6 @@ a {
     display: flex;
   }
   .breadcrumbs {
-    display: none;
-  }
-  .market-status-pill {
     display: none;
   }
   .role-switcher-full {
