@@ -1878,9 +1878,262 @@ a {
 }
 
 /* ==========================================================================
-   Responsive Adaptations
+   Responsive Adaptations & Mobile-First Component Rules
    ========================================================================== */
 
+/* Scrim Backdrop for Mobile Sidebar */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 25;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Mobile Brand in Topbar */
+.topbar-mobile-brand {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-mobile-logo {
+  height: 24px;
+  width: auto;
+}
+
+.topbar-mobile-name {
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* Role Switcher Responsive Typography */
+.role-switcher-compact {
+  display: none;
+}
+
+/* Dual View: Desktop Table vs Mobile Cards */
+.desktop-only-table {
+  display: block;
+}
+
+.mobile-only-cards {
+  display: none;
+}
+
+.mobile-research-card {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.mobile-research-card:hover {
+  border-color: var(--border-focus);
+}
+
+.mobile-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mobile-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.exchange-tag {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.mobile-card-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.mobile-card-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.mobile-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px;
+}
+
+.mobile-metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metric-lbl {
+  font-size: 10px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.metric-val {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.metric-val.edge {
+  color: var(--win-green);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.metric-val.stake {
+  color: var(--text-primary);
+}
+
+.mobile-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.mobile-author-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mobile-card-btn {
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Mobile Segmented Column Tabs for Kanban */
+.mobile-column-tabs {
+  display: none;
+  gap: 6px;
+  background: var(--bg-card);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.column-tab-btn {
+  flex: 1;
+  padding: 8px 6px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.column-tab-btn.active {
+  background: var(--bg-card-subtle);
+  color: var(--emerald);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.tab-counter {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: var(--radius-full);
+  background: var(--border-medium);
+  color: var(--text-secondary);
+}
+
+.column-tab-btn.active .tab-counter {
+  background: var(--emerald-soft);
+  color: var(--emerald);
+}
+
+/* Mobile Channel Scroller for Chat */
+.mobile-channel-scroller {
+  display: none;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg-card-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-channel-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mobile-channel-pill.active {
+  background: var(--emerald-soft);
+  border-color: var(--emerald-border);
+  color: var(--emerald);
+}
+
+/* Modal Action Rows */
+.modal-actions-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.modal-action-buttons, .modal-settle-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* Tablet & Smaller Screens (< 1200px) */
 @media (max-width: 1200px) {
   .kpi-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1888,27 +2141,41 @@ a {
   .dashboard-split-grid {
     grid-template-columns: 1fr;
   }
-  .kanban-grid {
-    grid-template-columns: 1fr;
-  }
   .tech-spec-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Tablet & Mobile Screens (< 900px) */
 @media (max-width: 900px) {
   .sidebar {
     transform: translateX(-100%);
+    z-index: 100;
   }
   .sidebar.mobile-open {
     transform: translateX(0);
-    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.8);
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.85);
   }
   .mobile-menu-btn {
     display: flex;
   }
+  .topbar-mobile-brand {
+    display: flex;
+  }
+  .breadcrumbs {
+    display: none;
+  }
   .market-status-pill {
     display: none;
+  }
+  .blueprint-btn-text {
+    display: none;
+  }
+  .role-switcher-full {
+    display: none;
+  }
+  .role-switcher-compact {
+    display: inline-block;
   }
   .main-wrapper {
     margin-left: 0;
@@ -1919,39 +2186,116 @@ a {
   .page-content {
     padding: 16px;
   }
+
+  /* Research Dual View Switch */
+  .desktop-only-table {
+    display: none;
+  }
+  .mobile-only-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Kanban Mobile Column Switch */
+  .mobile-column-tabs {
+    display: flex;
+  }
+  .kanban-grid {
+    grid-template-columns: 1fr;
+  }
+  .kanban-column.mobile-hidden-col {
+    display: none;
+  }
+  .kanban-column.mobile-visible-col {
+    display: flex;
+  }
+
+  /* Chat Mobile Switch */
   .chat-container-layout {
     grid-template-columns: 1fr;
-    height: auto;
+    height: calc(100vh - 180px);
+    min-height: 480px;
   }
   .chat-sidebar {
-    height: 180px;
-    border-right: none;
-    border-bottom: 1px solid var(--border-subtle);
+    display: none;
   }
+  .mobile-channel-scroller {
+    display: flex;
+  }
+
+  /* Blueprint diagram stack */
   .blueprint-flow-diagram {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 600px) {
+/* Mobile Screens (< 640px) */
+@media (max-width: 640px) {
   .kpi-grid {
     grid-template-columns: 1fr;
   }
-  .breadcrumbs span:not(.breadcrumb-active) {
+  .topbar {
+    padding: 0 12px;
+    height: 58px;
+  }
+  .topbar-right {
+    gap: 6px;
+  }
+  .topbar-mobile-name {
+    display: none;
+  }
+  .topbar-cta-text {
     display: none;
   }
   .page-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 12px;
   }
-  .topbar-right {
-    gap: 8px;
+  .page-header button {
+    width: 100%;
+    justify-content: center;
   }
-  .blueprint-btn span {
-    display: none;
+  .filter-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
-  .btn-primary span {
-    display: none;
+  .filter-group {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .search-input-wrap {
+    width: 100%;
+  }
+
+  /* Form & Modal Mobile Collapse */
+  .form-grid-2, .form-grid-3 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .modal-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .modal-action-buttons, .modal-settle-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .modal-action-buttons button, .modal-settle-buttons button {
+    width: 100%;
+    justify-content: center;
+  }
+  .modal-dialog {
+    margin: 8px;
+    max-height: 94vh;
+  }
+  .modal-header, .modal-body, .modal-footer {
+    padding: 16px;
+  }
+  .tech-spec-grid {
+    grid-template-columns: 1fr;
   }
 }

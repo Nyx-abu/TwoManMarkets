@@ -434,6 +434,9 @@ export default function App() {
   const [newTaskModalOpen, setNewTaskModalOpen] = useState(false);
   const [addMemberModalOpen, setAddMemberModalOpen] = useState(false);
 
+  // Mobile Task Column Selector ('Pending' | 'In Progress' | 'Completed')
+  const [mobileTaskCol, setMobileTaskCol] = useState<'Pending' | 'In Progress' | 'Completed'>('Pending');
+
   // Chat Composer Input
   const [chatInput, setChatInput] = useState('');
 
@@ -569,6 +572,13 @@ export default function App() {
       {/* ==================================================================
           1. Sidebar Navigation
           ================================================================== */}
+      {mobileMenuOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-label="Close sidebar backdrop"
+        />
+      )}
       <aside className={`sidebar ${mobileMenuOpen ? 'mobile-open' : ''}`}>
         <div className="sidebar-header">
           <div className="brand-wrapper">
@@ -705,6 +715,11 @@ export default function App() {
               <Menu size={20} />
             </button>
 
+            <div className="topbar-mobile-brand">
+              <img src="/logo-mark.png" alt="TM" className="topbar-mobile-logo" />
+              <span className="topbar-mobile-name">TwoManMarkets</span>
+            </div>
+
             <div className="breadcrumbs">
               <span>TwoManMarkets</span>
               <span>/</span>
@@ -734,7 +749,7 @@ export default function App() {
               title="Open System Architecture Blueprint"
             >
               <Layers size={15} />
-              <span>System Architecture</span>
+              <span className="blueprint-btn-text">Architecture</span>
             </button>
 
             {/* Role Switcher (Crucial for Client Review) */}
@@ -742,10 +757,12 @@ export default function App() {
               <button
                 className="role-switcher-trigger"
                 onClick={() => setRoleMenuOpen(!roleMenuOpen)}
+                aria-label="Switch User Perspective"
               >
-                <span>Viewing as: <b>{currentUser.name}</b></span>
+                <span className="role-switcher-full">Viewing as: <b>{currentUser.name}</b></span>
+                <span className="role-switcher-compact"><b>{currentUser.name.split(' ')[0]}</b></span>
                 <span className="role-badge-tag">{currentUser.role}</span>
-                <ChevronDown size={14} />
+                <ChevronDown size={13} />
               </button>
 
               {roleMenuOpen && (
@@ -1214,9 +1231,9 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Research List Table */}
+              {/* Research List Table (Desktop & Tablet Wide) */}
               <div className="panel-card">
-                <div className="table-responsive">
+                <div className="table-responsive desktop-only-table">
                   <table className="data-table">
                     <thead>
                       <tr>
@@ -1292,6 +1309,71 @@ export default function App() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Mobile & Tablet Card View (Polymarket / Fintech Mobile UX) */}
+                <div className="mobile-only-cards">
+                  {researchList
+                    .filter(r => researchFilter === 'All' || r.status === researchFilter)
+                    .filter(r => categoryFilter === 'All' || r.category === categoryFilter)
+                    .map(item => (
+                      <div key={item.id} className="mobile-research-card">
+                        <div className="mobile-card-header">
+                          <div className="mobile-card-badges">
+                            <span className="category-chip">{item.category}</span>
+                            <span className="exchange-tag">{item.book}</span>
+                          </div>
+                          <span className={`status-pill ${item.status.toLowerCase()}`}>
+                            {item.status}
+                          </span>
+                        </div>
+
+                        <h4 className="mobile-card-title">{item.market}</h4>
+                        <div className="mobile-card-meta">{item.id} · {item.date}</div>
+
+                        <div className="mobile-metrics-strip">
+                          <div className="mobile-metric-item">
+                            <span className="metric-lbl">Market Odds</span>
+                            <span className="metric-val odds">{item.odds}</span>
+                          </div>
+
+                          <div className="mobile-metric-item">
+                            <span className="metric-lbl">Calculated Edge</span>
+                            <span className="metric-val edge">
+                              <TrendingUp size={11} /> {item.edge}
+                            </span>
+                          </div>
+
+                          <div className="mobile-metric-item">
+                            <span className="metric-lbl">
+                              {item.actualInvested > 0 ? 'Invested' : 'Proposed'}
+                            </span>
+                            <span className="metric-val stake">
+                              ${item.actualInvested > 0 ? item.actualInvested.toLocaleString() : item.suggestedStake.toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="mobile-card-footer">
+                          <div className="mobile-author-info">
+                            <div className="user-avatar staff" style={{ width: 22, height: 22, fontSize: 10 }}>
+                              {item.authorInitials}
+                            </div>
+                            <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{item.author}</span>
+                          </div>
+
+                          <button
+                            className="btn-secondary mobile-card-btn"
+                            onClick={() => {
+                              setReviewModalItem(item);
+                              setInvestAmountInput(item.suggestedStake.toString());
+                            }}
+                          >
+                            {currentUser.role === 'OWNER' ? 'Manage Capital' : 'Inspect Thesis'}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
           )}
@@ -1312,12 +1394,31 @@ export default function App() {
                 </button>
               </div>
 
+              {/* Mobile Segmented Column Tabs */}
+              <div className="mobile-column-tabs">
+                {(['Pending', 'In Progress', 'Completed'] as const).map(col => (
+                  <button
+                    key={col}
+                    className={`column-tab-btn ${mobileTaskCol === col ? 'active' : ''}`}
+                    onClick={() => setMobileTaskCol(col)}
+                  >
+                    <span>{col}</span>
+                    <span className="tab-counter">
+                      {taskList.filter(t => t.status === col).length}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
               {/* Kanban Grid */}
               <div className="kanban-grid">
                 {(['Pending', 'In Progress', 'Completed'] as const).map(column => {
                   const tasksInCol = taskList.filter(t => t.status === column);
                   return (
-                    <div key={column} className="kanban-column">
+                    <div
+                      key={column}
+                      className={`kanban-column ${mobileTaskCol === column ? 'mobile-visible-col' : 'mobile-hidden-col'}`}
+                    >
                       <div className="kanban-column-header">
                         <div className="column-title-wrap">
                           <span>{column}</span>
@@ -1441,6 +1542,20 @@ export default function App() {
 
                 {/* Main Active Conversation Window */}
                 <div className="chat-main-window">
+                  {/* Mobile Channel Quick Switcher */}
+                  <div className="mobile-channel-scroller">
+                    {['#announcements', '#sports-picks', '#macro-theses', '#general', 'Maya Chen', 'Jordan Lee', 'Sam Rivera'].map(ch => (
+                      <button
+                        key={ch}
+                        className={`mobile-channel-pill ${activeChannel === ch ? 'active' : ''}`}
+                        onClick={() => setActiveChannel(ch)}
+                      >
+                        {ch.startsWith('#') ? <MessageSquare size={12} /> : <Users size={12} />}
+                        <span>{ch}</span>
+                      </button>
+                    ))}
+                  </div>
+
                   <div className="chat-active-header">
                     <div className="channel-info">
                       <h3>{activeChannel}</h3>
@@ -2291,8 +2406,8 @@ export default function App() {
                   </div>
 
                   {reviewModalItem.status === 'Pending' && (
-                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                      <div style={{ flex: 1 }}>
+                    <div className="modal-actions-row">
+                      <div style={{ flex: 1, width: '100%' }}>
                         <label className="form-label">Actual Invested Stake ($)</label>
                         <input
                           type="number"
@@ -2302,21 +2417,23 @@ export default function App() {
                           placeholder="e.g. 1500"
                         />
                       </div>
-                      <button
-                        className="btn-secondary"
-                        style={{ marginTop: '20px' }}
-                        onClick={() => handlePassPick(reviewModalItem)}
-                      >
-                        Pass Pick
-                      </button>
-                      <button
-                        className="btn-primary"
-                        style={{ marginTop: '20px' }}
-                        onClick={() => handleApproveInvestment(reviewModalItem, Number(investAmountInput))}
-                      >
-                        <Check size={16} />
-                        <span>Approve &amp; Capitalize (${investAmountInput})</span>
-                      </button>
+                      <div className="modal-action-buttons">
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => handlePassPick(reviewModalItem)}
+                        >
+                          Pass Pick
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-primary"
+                          onClick={() => handleApproveInvestment(reviewModalItem, Number(investAmountInput))}
+                        >
+                          <Check size={16} />
+                          <span>Approve &amp; Capitalize (${investAmountInput})</span>
+                        </button>
+                      </div>
                     </div>
                   )}
 
@@ -2325,8 +2442,9 @@ export default function App() {
                       <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
                         Position is currently active with <b>${reviewModalItem.actualInvested.toLocaleString()}</b> deployed. When market settles:
                       </div>
-                      <div style={{ display: 'flex', gap: '10px' }}>
+                      <div className="modal-settle-buttons">
                         <button
+                          type="button"
                           className="btn-primary"
                           onClick={() => {
                             const payout = Math.round(reviewModalItem.actualInvested * 1.91);
@@ -2338,6 +2456,7 @@ export default function App() {
                         </button>
 
                         <button
+                          type="button"
                           className="btn-secondary"
                           style={{ borderColor: 'var(--loss-red)', color: 'var(--loss-red)' }}
                           onClick={() => handleSettleOutcome(reviewModalItem, 'Lost', 0)}
