@@ -9,9 +9,11 @@ import {
   CheckCircle2,
   Calendar,
   Radio,
-  ChevronRight
+  ChevronRight,
+  Activity
 } from 'lucide-react';
-import { StaffMember, ResearchItem, DeskAnnouncement, TabType } from '../../types';
+import { StaffMember, ResearchItem, DeskAnnouncement, TabType, FirmMetrics, PersonalMetrics, ChartConfig } from '../../types';
+import { LIVE_ODDS_TICKER } from '../../data/mockData';
 
 /**
  * Dashboard Overview View Component
@@ -66,38 +68,10 @@ interface DashboardViewProps {
   setCustomStartDate: (d: string) => void;
   customEndDate: string;
   setCustomEndDate: (d: string) => void;
-  chartConfig: {
-    areaPath: string;
-    linePath: string;
-    terminalY: number;
-    labels: string[];
-  };
-  metrics: {
-    totalInvested: number;
-    totalProfit: number;
-    wonCount: number;
-    lostCount: number;
-    settledCount: number;
-    winRate: string;
-    overallRoi: string;
-    pendingCount: number;
-    investedCount: number;
-    totalTheses: number;
-  };
-  personalMetrics: {
-    totalTheses: number;
-    wonCount: number;
-    lostCount: number;
-    pendingCount: number;
-    investedCount: number;
-    hitRate: string;
-    netProfit: number;
-    streak: string;
-    avgEdge: string;
-    assignedTasksCount: number;
-    completedTasksCount: number;
-    taskCompletionRate: number;
-  };
+  chartConfig: ChartConfig;
+  metrics: FirmMetrics;
+  personalMetrics: PersonalMetrics;
+  onOpenAnnouncementModal?: () => void;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -115,7 +89,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   setCustomEndDate,
   chartConfig,
   metrics,
-  personalMetrics
+  personalMetrics,
+  onOpenAnnouncementModal
 }) => {
   return (
     <div>
@@ -134,6 +109,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <span>Submit Research</span>
           </button>
         </div>
+      </div>
+
+      {/* Live Odds Market Ticker Strip */}
+      <div className="market-ticker-strip">
+        <span className="ticker-label">
+          <Activity size={14} /> LIVE MARKETS
+        </span>
+        {LIVE_ODDS_TICKER.map(tick => (
+          <div key={tick.id} className="ticker-item">
+            <span className="ticker-market">{tick.market}</span>
+            <span className="ticker-odds">{tick.odds}</span>
+            <span className="ticker-change up">
+              {tick.type === 'settled' ? <CheckCircle2 size={11} /> : <TrendingUp size={11} />} {tick.change}
+            </span>
+          </div>
+        ))}
       </div>
 
       {/* Top KPI Metrics Cards: Role-Aware (Owner Firm-Wide vs Staff Personal Telemetry) */}
@@ -439,7 +430,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="announcement-title">{deskAnnouncement.title}</div>
           <p className="announcement-text">{deskAnnouncement.body}</p>
         </div>
-        <div className="announcement-meta">Posted by {deskAnnouncement.author} · {deskAnnouncement.postedAt}</div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', flexShrink: 0 }}>
+          <div className="announcement-meta">Posted by {deskAnnouncement.author} · {deskAnnouncement.postedAt}</div>
+          {currentUser.role === 'OWNER' && onOpenAnnouncementModal && (
+            <button
+              className="btn-secondary"
+              style={{ padding: '4px 10px', fontSize: '11px', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+              onClick={onOpenAnnouncementModal}
+            >
+              <Radio size={12} style={{ color: 'var(--emerald)' }} />
+              <span>Broadcast New</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Lower Section: Pending Theses Requiring Review */}

@@ -13,11 +13,15 @@ import {
  * TwoManMarkets — Initial Seed Data & State Fixtures
  * 
  * ============================================================================
- * ARCHITECTURE & DATA LINEAGE NOTE (Nyx - 08:38 PM):
+ * ARCHITECTURE & DATA LINEAGE NOTE:
  * ----------------------------------------------------------------------------
  * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
+ * "闇 • Nyx [CODE], — 08:38 PM
+ * https://shineup-crm-demo.vercel.app/crm/admin
+ * previously done project. this is the direction we will go.
+ * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
+ * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
+ * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
  * 
  * In ShineUp CRM/ERP, our data seeds modeled enterprise construction, retail,
  * and manufacturing companies (technicians, warehouse stock, job invoices).
@@ -720,3 +724,13 @@ export const LIVE_ODDS_TICKER: LiveMarketTicker[] = [
     type: 'roi'
   }
 ];
+
+// Lowercase aliases conforming to modular architecture specification
+export const initialStaff = INITIAL_STAFF;
+export const initialResearch = INITIAL_RESEARCH;
+export const initialTasks = INITIAL_TASKS;
+export const initialChatChannels = INITIAL_CHATS;
+export const initialNotifications = INITIAL_NOTIFICATIONS;
+export const initialAuditLogs = INITIAL_AUDIT_LOGS;
+export const initialAnnouncement = INITIAL_ANNOUNCEMENT;
+export const liveOddsTicker = LIVE_ODDS_TICKER;

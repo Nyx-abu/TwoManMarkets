@@ -21,11 +21,15 @@ import { StaffMember, AuditLogItem, TabType } from '../../types';
  * Admin Settings & Governance View Component
  * 
  * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
+ * ARCHITECTURE & LINEAGE NOTE:
  * ----------------------------------------------------------------------------
  * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin (Direct Architectural Parent)
- * - https://crm-erp-demo.vercel.app/dashboard
+ * "闇 • Nyx [CODE], — 08:38 PM
+ * https://shineup-crm-demo.vercel.app/crm/admin
+ * previously done project. this is the direction we will go.
+ * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
+ * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
+ * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
  * 
  * Reused Architecture:
  * 1. ACCESS RESTRICTION CARD PATTERN:
@@ -75,6 +79,7 @@ interface AdminViewProps {
   onDeleteStaff: (memberId: string) => void;
   onSwitchToOwner: () => void;
   setActiveTab: (tab: TabType) => void;
+  onOpenAnnouncementModal?: () => void;
 }
 
 export const AdminView: React.FC<AdminViewProps> = ({
@@ -95,7 +100,8 @@ export const AdminView: React.FC<AdminViewProps> = ({
   onToggleStaffStatus,
   onDeleteStaff,
   onSwitchToOwner,
-  setActiveTab
+  setActiveTab,
+  onOpenAnnouncementModal
 }) => {
   if (currentUser.role !== 'OWNER') {
     return (
@@ -315,11 +321,24 @@ export const AdminView: React.FC<AdminViewProps> = ({
             <h3 className="panel-title">Manage Company Announcement</h3>
             <p className="panel-desc">Broadcast updates directly to the top dashboard banner and #announcements channel</p>
           </div>
-          {announcementSavedToast && (
-            <span className="status-pill won">
-              <CheckCircle2 size={13} /> Announcement Published!
-            </span>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {announcementSavedToast && (
+              <span className="status-pill won">
+                <CheckCircle2 size={13} /> Announcement Published!
+              </span>
+            )}
+            {onOpenAnnouncementModal && (
+              <button
+                type="button"
+                className="btn-secondary"
+                style={{ padding: '6px 12px', fontSize: '12px' }}
+                onClick={onOpenAnnouncementModal}
+              >
+                <Send size={13} />
+                <span>Open Broadcast Modal</span>
+              </button>
+            )}
+          </div>
         </div>
 
         <form onSubmit={onSaveAnnouncement} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>

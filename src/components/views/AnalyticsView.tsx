@@ -10,17 +10,21 @@ import {
   CheckCircle2,
   Flame
 } from 'lucide-react';
-import { StaffMember, ResearchItem } from '../../types';
+import { StaffMember, ResearchItem, FirmMetrics, PersonalMetrics, CategoryMetric } from '../../types';
 
 /**
  * Analytics & Reports View Component
  * 
  * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
+ * ARCHITECTURE & LINEAGE NOTE:
  * ----------------------------------------------------------------------------
  * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
+ * "闇 • Nyx [CODE], — 08:38 PM
+ * https://shineup-crm-demo.vercel.app/crm/admin
+ * previously done project. this is the direction we will go.
+ * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
+ * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
+ * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
  * 
  * Reused Architecture:
  * 1. LEADERBOARD & ATTRIBUTION ENGINE:
@@ -47,39 +51,14 @@ import { StaffMember, ResearchItem } from '../../types';
 // ============================================================================
 */
 
-interface CategoryMetricItem {
-  category: string;
-  totalItems: number;
-  invested: number;
-  profit: number;
-  winRate: string;
-  won: number;
-  settled: number;
-}
-
 interface AnalyticsViewProps {
   currentUser: StaffMember;
   staffList: StaffMember[];
   researchList: ResearchItem[];
   filteredHistoricalRecords: ResearchItem[];
-  categoryMetrics: CategoryMetricItem[];
-  metrics: {
-    totalInvested: number;
-    totalProfit: number;
-    overallRoi: string;
-  };
-  personalMetrics: {
-    totalTheses: number;
-    pendingCount: number;
-    investedCount: number;
-    hitRate: string;
-    netProfit: number;
-    streak: string;
-    avgEdge: string;
-    assignedTasksCount: number;
-    completedTasksCount: number;
-    taskCompletionRate: number;
-  };
+  categoryMetrics: CategoryMetric[];
+  metrics: FirmMetrics;
+  personalMetrics: PersonalMetrics;
   analyticsTimeframe: '7D' | '30D' | '90D' | 'ALL' | 'CUSTOM';
   setAnalyticsTimeframe: (tf: '7D' | '30D' | '90D' | 'ALL' | 'CUSTOM') => void;
   customStartDate: string;
@@ -206,9 +185,9 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
               <span className="kpi-title">PROFIT FACTOR</span>
               <Award size={18} style={{ color: 'var(--quant-violet)' }} />
             </div>
-            <div className="kpi-value">2.38x</div>
+            <div className="kpi-value">{metrics.profitFactor}</div>
             <div className="kpi-footer">
-              <span className="trend-pill positive">Sharpe: 1.84</span>
+              <span className="trend-pill positive">Sharpe: {metrics.sharpeRatio}</span>
               <span className="kpi-subtitle">risk-adjusted return</span>
             </div>
           </div>
@@ -218,7 +197,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
               <span className="kpi-title">AVERAGE VALUE EDGE</span>
               <Activity size={18} style={{ color: 'var(--info-blue)' }} />
             </div>
-            <div className="kpi-value">+5.4%</div>
+            <div className="kpi-value">{metrics.avgEdge}</div>
             <div className="kpi-footer">
               <span className="trend-pill positive">Kelly Sized</span>
               <span className="kpi-subtitle">above market implied odds</span>

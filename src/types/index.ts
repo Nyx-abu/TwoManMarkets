@@ -2,12 +2,15 @@
  * TwoManMarkets — Data Contracts, Models, and Domain Types
  * 
  * ============================================================================
- * ARCHITECTURE & PROVENANCE NOTE (Nyx - 08:38 PM):
+ * ARCHITECTURE & PROVENANCE NOTE:
  * ----------------------------------------------------------------------------
  * Direction / Lineage:
- * Originally adapted from my enterprise architecture in ShineUp CRM / ERP:
- * - https://shineup-crm-demo.vercel.app/crm/admin (Admin & RBAC Engine)
- * - https://crm-erp-demo.vercel.app/dashboard (Enterprise Operations & Multi-tenant)
+ * "闇 • Nyx [CODE], — 08:38 PM
+ * https://shineup-crm-demo.vercel.app/crm/admin
+ * previously done project. this is the direction we will go.
+ * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
+ * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
+ * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
  * 
  * What we stripped down & reused vs. what is bespoke:
  * 1. REUSED PATTERN: The RBAC capability matrix model (`StaffPermissions`) and
@@ -15,7 +18,7 @@
  *    enterprise security layer. In ShineUp, we had 30+ permissions across HR,
  *    Invoicing, and Procurement. Here, we stripped it down to a tight, high-signal
  *    6-permission model tailored to capital allocation and trading risk.
- * 2. REUSED PATTERN: Multi-perspective session typing (`Role`, `StaffMember`)
+ * 2. REUSED PATTERN: Multi-perspective session typing (`Role`, `StaffMember`, `User`)
  *    allowing instant perspective switching without needing real backend auth sessions
  *    during preview/stakeholder demo cycles.
  * 3. BESPOKE FOR TWOMANMARKETS: `ResearchItem` and `ResearchStatus` are 100% custom-built
@@ -87,6 +90,9 @@ export interface StaffMember {
     avgEdge: string;
   };
 }
+
+// User is an alias for StaffMember conforming to user model contract
+export type User = StaffMember;
 
 export type TabType = 'overview' | 'research' | 'tasks' | 'chat' | 'analytics' | 'team' | 'admin';
 
@@ -170,4 +176,65 @@ export interface LiveMarketTicker {
   odds: string;
   change: string;
   type: 'edge' | 'settled' | 'roi';
+}
+
+// Shared Telemetry & Analytics Models
+export interface FirmMetrics {
+  totalInvested: number;
+  totalProfit: number;
+  wonCount: number;
+  lostCount: number;
+  settledCount: number;
+  winRate: string;
+  overallRoi: string;
+  pendingCount: number;
+  investedCount: number;
+  totalTheses: number;
+  profitFactor: string;
+  sharpeRatio: string;
+  avgEdge: string;
+}
+
+export interface CategoryMetric {
+  category: 'Sports' | 'Macro' | 'Crypto' | 'Politics';
+  totalItems: number;
+  invested: number;
+  profit: number;
+  winRate: string;
+  won: number;
+  settled: number;
+}
+
+export interface TaskProgress {
+  total: number;
+  completed: number;
+  inProgress: number;
+  pending: number;
+  urgent: number;
+  percent: number;
+}
+
+export interface PersonalMetrics {
+  myItems: ResearchItem[];
+  totalTheses: number;
+  wonCount: number;
+  lostCount: number;
+  pendingCount: number;
+  investedCount: number;
+  settledCount: number;
+  hitRate: string;
+  netProfit: number;
+  streak: string;
+  avgEdge: string;
+  assignedTasksCount: number;
+  completedTasksCount: number;
+  activeTasks: number;
+  taskCompletionRate: number;
+}
+
+export interface ChartConfig {
+  areaPath: string;
+  linePath: string;
+  terminalY: number;
+  labels: string[];
 }
