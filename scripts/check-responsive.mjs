@@ -83,24 +83,28 @@ try {
   await command('Page.navigate', { url: 'http://127.0.0.1:4174' });
   await new Promise(r => setTimeout(r, 1500));
 
-  // Tablet (iPad 768px and 820px)
+  // Tablet (iPad 768px)
   await capture('test-tablet-768-overview', 768, 1024);
-  await capture('test-tablet-820-overview', 820, 1180);
+  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Research')); if (btn) btn.click(); })()`);
+  await capture('test-tablet-768-research', 768, 1024);
 
   // Phone (iPhone 390px)
+  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Command')); if (btn) btn.click(); })()`);
   await capture('test-mobile-390-overview', 390, 844);
-
-  // Mobile Research
   await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Research')); if (btn) btn.click(); })()`);
   await capture('test-mobile-390-research', 390, 844);
-
-  // Mobile Tasks
   await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Task')); if (btn) btn.click(); })()`);
   await capture('test-mobile-390-tasks', 390, 844);
-
-  // Mobile Chat
   await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Chat')); if (btn) btn.click(); })()`);
   await capture('test-mobile-390-chat', 390, 844);
+
+  // Compact Phone (360px)
+  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Command')); if (btn) btn.click(); })()`);
+  await capture('test-mobile-360-overview', 360, 740);
+  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Research')); if (btn) btn.click(); })()`);
+  await capture('test-mobile-360-research', 360, 740);
+  await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Chat')); if (btn) btn.click(); })()`);
+  await capture('test-mobile-360-chat', 360, 740);
 
 } finally {
   if (socket?.readyState === WebSocket.OPEN) socket.close();

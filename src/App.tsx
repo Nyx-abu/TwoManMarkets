@@ -19,12 +19,18 @@ import {
   TrendingUp,
   DollarSign,
   Activity,
-  Sparkles,
   Menu,
   X,
   Check,
   Award,
-  ChevronRight
+  ChevronRight,
+  ChevronLeft,
+  Crown,
+  Lock,
+  Key,
+  Zap,
+  Radio,
+  Flame
 } from 'lucide-react';
 
 // ============================================================================
@@ -310,7 +316,7 @@ const INITIAL_CHATS: Record<string, ChatMessage[]> = {
       role: 'OWNER',
       initials: 'LB',
       time: 'Yesterday 09:00 AM',
-      text: '🚨 Syndicate Desk Notice: Super Bowl rematch lines and Kalshi December rate cut lines have capital allocated. Please keep all model updates in the #sports-picks and #macro-theses channels.'
+      text: 'Syndicate Desk Notice: Super Bowl rematch lines and Kalshi December rate cut lines have capital allocated. Please keep all model updates in the #sports-picks and #macro-theses channels.'
     },
     {
       id: 'c-2',
@@ -692,7 +698,11 @@ export default function App() {
             <div className="user-info">
               <div className="user-name">{currentUser.name}</div>
               <div className={`user-role-badge ${currentUser.avatarClass}`}>
-                {currentUser.role === 'OWNER' ? '👑 CO-OWNER' : '📊 RESEARCHER'}
+                {currentUser.role === 'OWNER' ? (
+                  <span className="role-label-with-icon"><Crown size={12} /> CO-OWNER</span>
+                ) : (
+                  <span className="role-label-with-icon"><Activity size={12} /> RESEARCHER</span>
+                )}
               </div>
             </div>
           </div>
@@ -730,7 +740,7 @@ export default function App() {
                 {activeTab === 'analytics' && 'Portfolio Analytics & ROI'}
                 {activeTab === 'team' && 'Syndicate Staff Directory'}
                 {activeTab === 'admin' && 'Owner Admin & Permissions'}
-                {activeTab === 'blueprint' && 'System Architecture Blueprint'}
+                {activeTab === 'blueprint' && 'System Architecture'}
               </span>
             </div>
 
@@ -741,15 +751,6 @@ export default function App() {
           </div>
 
           <div className="topbar-right">
-            {/* Executive Architecture Blueprint Shortcut */}
-            <button
-              className="blueprint-btn"
-              onClick={() => setActiveTab('blueprint')}
-              title="Open System Architecture Blueprint"
-            >
-              <Layers size={15} />
-              <span className="blueprint-btn-text">Architecture</span>
-            </button>
 
             {/* Role Switcher (Crucial for Client Review) */}
             <div className="role-switcher-dropdown">
@@ -857,22 +858,22 @@ export default function App() {
             <div className="ticker-item">
               <span className="ticker-market">NFL · Chiefs -2.5:</span>
               <span className="ticker-odds">-110 (52.4%)</span>
-              <span className="ticker-change up">▲ +5.2% Edge</span>
+              <span className="ticker-change up"><TrendingUp size={11} /> +5.2% Edge</span>
             </div>
             <div className="ticker-item">
               <span className="ticker-market">Kalshi · Fed Dec Cut:</span>
               <span className="ticker-odds">78¢ (78.0%)</span>
-              <span className="ticker-change up">▲ +6.5% Edge</span>
+              <span className="ticker-change up"><TrendingUp size={11} /> +6.5% Edge</span>
             </div>
             <div className="ticker-item">
               <span className="ticker-market">Polymarket · BTC &gt; $85k:</span>
               <span className="ticker-odds">62¢ (62.0%)</span>
-              <span className="ticker-change up">▲ Settled Won</span>
+              <span className="ticker-change up"><CheckCircle2 size={11} /> Settled Won</span>
             </div>
             <div className="ticker-item">
               <span className="ticker-market">EPL · Arsenal Clean Sheet:</span>
               <span className="ticker-odds">+145 (40.8%)</span>
-              <span className="ticker-change up">▲ +145% ROI</span>
+              <span className="ticker-change up"><TrendingUp size={11} /> +145% ROI</span>
             </div>
           </div>
 
@@ -1084,7 +1085,7 @@ export default function App() {
               {/* Pinned Syndicate Announcement */}
               <div className="syndicate-announcement-card">
                 <div className="announcement-icon-badge">
-                  <Sparkles size={20} />
+                  <Radio size={18} />
                 </div>
                 <div className="announcement-body">
                   <div className="announcement-title">Desk Priority Sync · Kalshi & NFL Week 10 Allocations</div>
@@ -1447,7 +1448,7 @@ export default function App() {
               <div className="page-header">
                 <div className="page-title-group">
                   <h1>Task Operations & Deliverables Board</h1>
-                  <p>Assign responsibilities, research quotas, model audits, and track sprint deadlines.</p>
+                  <p>Assign responsibilities, research quotas, model audits, and track syndicate deadlines.</p>
                 </div>
                 <div className="header-actions">
                   <button className="btn-primary" onClick={() => setNewTaskModalOpen(true)}>
@@ -1524,8 +1525,9 @@ export default function App() {
                                   className="task-move-btn"
                                   onClick={() => handleMoveTask(task.id, column === 'Completed' ? 'In Progress' : 'Pending')}
                                   title="Move Left"
+                                  aria-label="Move task left"
                                 >
-                                  ◀
+                                  <ChevronLeft size={13} />
                                 </button>
                               )}
                               {column !== 'Completed' && (
@@ -1533,8 +1535,9 @@ export default function App() {
                                   className="task-move-btn"
                                   onClick={() => handleMoveTask(task.id, column === 'Pending' ? 'In Progress' : 'Completed')}
                                   title="Move Right"
+                                  aria-label="Move task right"
                                 >
-                                  ▶
+                                  <ChevronRight size={13} />
                                 </button>
                               )}
                             </div>
@@ -1755,8 +1758,8 @@ export default function App() {
                     <h3 className="panel-title">Analyst Performance Leaderboard</h3>
                     <p className="panel-desc">Individual research track record, hit rates, and net alpha generated</p>
                   </div>
-                  <span style={{ fontSize: '11px', color: 'var(--emerald)', fontWeight: 600 }}>
-                    🏆 Evaluated Monthly
+                  <span className="eval-badge">
+                    <Award size={13} /> Evaluated Monthly
                   </span>
                 </div>
 
@@ -1788,7 +1791,7 @@ export default function App() {
                         <td>16 picks</td>
                         <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--win-green)' }}>+$4,220</td>
                         <td>+5.8%</td>
-                        <td><span className="status-pill won">🔥 4 Wins</span></td>
+                        <td><span className="status-pill won"><Flame size={12} /> 4 Wins</span></td>
                       </tr>
                       <tr>
                         <td style={{ fontWeight: 800, color: 'var(--text-secondary)' }}>#2</td>
@@ -1877,7 +1880,11 @@ export default function App() {
                           </td>
                           <td>
                             <span className={`status-pill ${p.role === 'OWNER' ? 'won' : 'invested'}`}>
-                              {p.role === 'OWNER' ? '👑 CO-OWNER (ADMIN)' : '📊 STAFF RESEARCHER'}
+                              {p.role === 'OWNER' ? (
+                                <span className="role-label-with-icon"><Crown size={12} /> CO-OWNER</span>
+                              ) : (
+                                <span className="role-label-with-icon"><Activity size={12} /> STAFF RESEARCHER</span>
+                              )}
                             </span>
                           </td>
                           <td style={{ color: 'var(--text-secondary)' }}>{p.title}</td>
@@ -1920,7 +1927,11 @@ export default function App() {
                           </div>
                         </div>
                         <span className={`status-pill ${p.role === 'OWNER' ? 'won' : 'invested'}`}>
-                          {p.role === 'OWNER' ? '👑 CO-OWNER' : '📊 RESEARCHER'}
+                          {p.role === 'OWNER' ? (
+                            <span className="role-label-with-icon"><Crown size={12} /> CO-OWNER</span>
+                          ) : (
+                            <span className="role-label-with-icon"><Activity size={12} /> RESEARCHER</span>
+                          )}
                         </span>
                       </div>
 
@@ -2002,32 +2013,32 @@ export default function App() {
                     <tbody>
                       <tr>
                         <td><strong>Review & Allocate Capital ($ Sizing)</strong></td>
-                        <td style={{ color: 'var(--win-green)', fontWeight: 700 }}>✓ FULL ACCESS</td>
-                        <td style={{ color: 'var(--loss-red)', fontWeight: 600 }}>✕ RESTRICTED (Hidden)</td>
+                        <td><span className="rbac-badge allowed"><Check size={12} /> Full Access</span></td>
+                        <td><span className="rbac-badge restricted"><X size={12} /> Restricted (Hidden)</span></td>
                         <td>Server-side RBAC Guard</td>
                       </tr>
                       <tr>
                         <td><strong>Create, Deactivate & Delete Staff Accounts</strong></td>
-                        <td style={{ color: 'var(--win-green)', fontWeight: 700 }}>✓ FULL ACCESS</td>
-                        <td style={{ color: 'var(--loss-red)', fontWeight: 600 }}>✕ RESTRICTED</td>
+                        <td><span className="rbac-badge allowed"><Check size={12} /> Full Access</span></td>
+                        <td><span className="rbac-badge restricted"><X size={12} /> Restricted</span></td>
                         <td>Master Key Signature</td>
                       </tr>
                       <tr>
                         <td><strong>Firm-Wide Financial P&L & Balance</strong></td>
-                        <td style={{ color: 'var(--win-green)', fontWeight: 700 }}>✓ FULL ACCESS</td>
-                        <td style={{ color: 'var(--loss-red)', fontWeight: 600 }}>✕ Personal Alpha Only</td>
+                        <td><span className="rbac-badge allowed"><Check size={12} /> Full Access</span></td>
+                        <td><span className="rbac-badge partial"><Lock size={12} /> Personal Alpha Only</span></td>
                         <td>Isolated Ledger View</td>
                       </tr>
                       <tr>
                         <td><strong>Submit Prediction Market Research Theses</strong></td>
-                        <td style={{ color: 'var(--win-green)', fontWeight: 700 }}>✓ ALLOWED</td>
-                        <td style={{ color: 'var(--win-green)', fontWeight: 700 }}>✓ CORE RESPONSIBILITY</td>
+                        <td><span className="rbac-badge allowed"><Check size={12} /> Allowed</span></td>
+                        <td><span className="rbac-badge allowed"><Check size={12} /> Core Responsibility</span></td>
                         <td>Submission Pipeline</td>
                       </tr>
                       <tr>
                         <td><strong>Post Company Announcements</strong></td>
-                        <td style={{ color: 'var(--win-green)', fontWeight: 700 }}>✓ BROADCAST ACCESS</td>
-                        <td style={{ color: 'var(--text-muted)' }}>View & React Only</td>
+                        <td><span className="rbac-badge allowed"><Check size={12} /> Broadcast Access</span></td>
+                        <td><span className="rbac-badge partial">View & React Only</span></td>
                         <td>Channel Admin Guard</td>
                       </tr>
                     </tbody>
@@ -2080,11 +2091,11 @@ export default function App() {
             <div>
               <div className="page-header">
                 <div className="page-title-group">
-                  <h1>TwoManMarkets — Executive Architecture Blueprint</h1>
-                  <p>Comprehensive operating architecture, security isolation framework, and capital execution pipeline.</p>
+                  <h1>TwoManMarkets — System Infrastructure & Architecture</h1>
+                  <p>Comprehensive operating architecture, zero-trust security framework, and capital execution pipeline.</p>
                 </div>
                 <div className="status-pill won">
-                  <ShieldCheck size={14} /> Verified Architecture
+                  <ShieldCheck size={14} /> Production Infrastructure
                 </div>
               </div>
 
@@ -2146,22 +2157,22 @@ export default function App() {
 
                   <div className="tech-spec-grid">
                     <div className="tech-spec-item">
-                      <strong>🔒 Bankroll Privacy</strong>
+                      <strong><Lock size={14} /> Bankroll Privacy</strong>
                       <span>Staff can never see the syndicate's total balance or other analysts' allocations unless permitted.</span>
                     </div>
 
                     <div className="tech-spec-item">
-                      <strong>🔑 Dual-Owner Governance</strong>
+                      <strong><Key size={14} /> Dual-Owner Governance</strong>
                       <span>Only the 2 master admin accounts hold keys to create/edit staff, assign permissions, or execute payouts.</span>
                     </div>
 
                     <div className="tech-spec-item">
-                      <strong>⚡ 100% In-App Notifications</strong>
+                      <strong><Zap size={14} /> Real-Time In-App Feeds</strong>
                       <span>Zero dependency on third-party webhooks. Clean, instant notification center with unread counters.</span>
                     </div>
 
                     <div className="tech-spec-item">
-                      <strong>🛡️ Row-Level Database Security</strong>
+                      <strong><ShieldCheck size={14} /> Row-Level Database Security</strong>
                       <span>PostgreSQL database tables protected by cryptographic user session tokens and role guards.</span>
                     </div>
                   </div>
@@ -2509,8 +2520,9 @@ export default function App() {
                   )}
                 </div>
               ) : (
-                <div style={{ padding: '12px', borderRadius: 'var(--radius-md)', background: 'var(--bg-card-subtle)', border: '1px solid var(--border-subtle)', fontSize: '12px', color: 'var(--text-muted)' }}>
-                  🔒 Capital allocation &amp; settlement buttons are restricted to Co-Owner accounts. (Switch to Luis profile in the top-right to test decision controls).
+                <div style={{ padding: '12px', borderRadius: 'var(--radius-md)', background: 'var(--bg-card-subtle)', border: '1px solid var(--border-subtle)', fontSize: '12px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Lock size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+                  <span>Capital allocation and settlement controls are restricted to Co-Owner accounts. (Switch to Luis profile in the top-right to test decision controls).</span>
                 </div>
               )}
             </div>
