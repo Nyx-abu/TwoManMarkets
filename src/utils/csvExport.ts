@@ -1,46 +1,9 @@
 import { ResearchItem } from '../types';
 
-/**
- * TwoManMarkets — RFC-4180 Compliant CSV Export Utility
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * Reused Pattern:
- * Adapted from ShineUp CRM's accounting ledger export routine.
- * 
- * Key Fixes & Hardening for TwoManMarkets:
- * 1. RFC-4180 Escaping: Any cell with commas, quotes, or newlines is wrapped in quotes
- *    and internal quotes are doubled (`"` -> `""`).
- * 2. URL Blob vs Data URI: Previously, `encodeURI("data:text/csv...")` was used.
- *    Data URIs break when fields contain `#` (like `#1 Pick` or `#macro-theses`),
- *    because `#` begins the URL fragment identifier and truncates the downloaded CSV.
- *    Using `Blob` + `URL.createObjectURL` completely eliminates URL length limits
- *    and fragment truncation.
- * 3. Exact Filter Fidelity: If the user filters down to 0 matching records, the export
- *    exports the headers only. It never silently ignores the filter to export all rows.
- * ============================================================================
- */
+// CSV export helper for tabular data
 
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP ERP - ANALYTICS DATA EXPORT ENGINE]
-// In ShineUp CRM, financial audits were exported via:
-//
-// const SHINEUP_CSV_COLUMNS = ['InvoiceID', 'Client', 'TotalAmount', 'Status', 'Technician'];
-// function exportShineUpInvoices(invoices: LegacyInvoice[]) { ... }
-//
-// Adapted below to export prediction market positions, closing odds, and P&L.
-// ============================================================================
-*/
+// TODO: remove legacy invoice exporter columns
+// const OLD_CSV_COLUMNS = ['InvoiceID', 'Client', 'TotalAmount', 'Status'];
 
 function escapeCsvCell(value: string | number | undefined | null): string {
   if (value === undefined || value === null) return '""';

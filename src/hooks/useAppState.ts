@@ -29,25 +29,7 @@ import {
 } from '../utils/telemetry';
 import { exportResearchLedgerToCsv } from '../utils/csvExport';
 
-/**
- * TwoManMarkets — Central Application State Hook
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * Reused from ShineUp ERP:
- * Headless state management pattern separating business operations, audit event logging,
- * and multi-perspective user switching from presentation layout.
- * ============================================================================
- */
+// Central application state hook managing navigation, data, and modal workflows
 export function useAppState() {
   // Navigation & Multi-Perspective State
   const [activeTab, setActiveTab] = useState<TabType>('overview');

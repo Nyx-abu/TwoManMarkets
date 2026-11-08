@@ -9,47 +9,13 @@ import {
   ChartConfig
 } from '../types';
 
-/**
- * TwoManMarkets — Quantitative Telemetry & Analytics Engine
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * In ShineUp CRM/ERP, financial math centered on billable technician hours, gross invoice
- * margin, and subcontractor expense reconciliation.
- * 
- * For TwoManMarkets, we stripped out the invoice/payroll calculation routines and replaced
- * them with a proprietary sports betting & prediction market quantitative engine:
- * 1. Dynamic Win Rate & ROI attribution across settled positions (Won vs Lost).
- * 2. Profit Factor = Gross Winnings / Gross Losses.
- * 3. Sharpe Ratio = (Annualized Return - Risk Free) / Portfolio Volatility proxy.
- * 4. Average Edge % = Mean edge percentage across active research models.
- * 5. Isolated dual-perspective masking: Co-Owner treasury access vs. Analyst attribution.
- * ============================================================================
- */
+// Quantitative metrics calculation engine
 
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP ERP - HISTORICAL REVENUE AGGREGATION PATTERN]
-// In ShineUp CRM, monthly billing was aggregated with:
-//
-// export function calculateShineUpBilling(invoices: LegacyInvoice[]) {
+// TODO: remove legacy billing aggregator
+// function calcBilling(invoices: any[]) {
 //   const paid = invoices.filter(i => i.status === 'PAID').reduce((s, i) => s + i.total, 0);
-//   const outstanding = invoices.filter(i => i.status === 'SENT').reduce((s, i) => s + i.total, 0);
-//   return { paid, outstanding, grossMargin: ((paid - laborCost) / paid) * 100 };
+//   return { paid };
 // }
-//
-// Below, we adapted this accumulator pattern to prediction market capital settlement.
-// ============================================================================
-*/
 
 /**
  * Calculates aggregate firm-wide trading metrics for Co-Owners.

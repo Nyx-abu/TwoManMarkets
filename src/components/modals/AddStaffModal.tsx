@@ -2,23 +2,6 @@ import React from 'react';
 import { X, Plus } from 'lucide-react';
 import { StaffMember, Role } from '../../types';
 
-/**
- * Invite / Add Staff Account Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * Adapted from ShineUp CRM's user provisioning system (`/crm/admin`).
- * Creates a brand-new staff member with default analytical permissions,
- * automatic initials generation, and pre-configured telemetry metrics.
- * ============================================================================
- */
-
 interface AddStaffModalProps {
   isOpen: boolean;
   onClose: () => void;

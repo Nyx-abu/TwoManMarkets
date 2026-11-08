@@ -2,23 +2,6 @@ import React from 'react';
 import { X, Plus } from 'lucide-react';
 import { StaffMember } from '../../types';
 
-/**
- * New Conversation / Channel Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * Adapted from ShineUp CRM's communication channel initiator.
- * Dynamically sanitizes topic channel slugs (forcing lowercase and kebab-case `#`)
- * or routes private 1-on-1 direct messages with teammates.
- * ============================================================================
- */
-
 interface NewChatModalProps {
   isOpen: boolean;
   onClose: () => void;

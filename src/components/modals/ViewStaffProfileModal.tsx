@@ -9,23 +9,6 @@ import {
 } from 'lucide-react';
 import { StaffMember } from '../../types';
 
-/**
- * View Individual Employee Profile Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * Adapted from ShineUp CRM's complete staff telemetry dossier.
- * Displays individual quantitative metrics (hit rate, streak, net profit,
- * tasks completed) alongside core responsibilities and active permissions.
- * ============================================================================
- */
-
 interface ViewStaffProfileModalProps {
   member: StaffMember | null;
   onClose: () => void;

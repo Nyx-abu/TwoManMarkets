@@ -2,23 +2,6 @@ import React from 'react';
 import { X, CheckCircle2, Key, Check } from 'lucide-react';
 import { StaffMember } from '../../types';
 
-/**
- * Password Management / Reset Credentials Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * Adapted from ShineUp CRM's Security & Credential Dispatcher (`/crm/admin`).
- * Enforces enterprise password complexity standards (8+ chars, uppercase,
- * numbers/symbols, match confirmation) with interactive checklist feedback.
- * ============================================================================
- */
-
 interface ResetPasswordModalProps {
   member: StaffMember | null;
   onClose: () => void;

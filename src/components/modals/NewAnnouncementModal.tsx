@@ -2,26 +2,6 @@ import React, { useState } from 'react';
 import { X, Send } from 'lucide-react';
 import { StaffMember } from '../../types';
 
-/**
- * New Desk Announcement Broadcast Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * Reused Architecture:
- * Broadcast announcement publisher modal. Allows Co-Owners to push high-priority
- * desk-wide updates to the pinned topbar banner and into the `#announcements` stream.
- * ============================================================================
- */
-
 interface NewAnnouncementModalProps {
   isOpen: boolean;
   onClose: () => void;

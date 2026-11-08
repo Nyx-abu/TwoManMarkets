@@ -10,41 +10,8 @@ import {
 } from 'lucide-react';
 import { StaffMember } from '../../types';
 
-/**
- * Staff Directory View Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * 1. WORKFORCE DIRECTORY & PROFILE DRAWER TRIGGER:
- *    Adapted from ShineUp CRM's employee & contractor registry.
- *    Supports instant search indexing across name, @username handle, and job focus.
- * 2. OWNER-CONTROLLED ADMINISTRATIVE TOGGLE:
- *    Account deactivation/reactivation actions are gated behind the Co-Owner role.
- *    Staff analysts can inspect their peers' track record and credentials,
- *    but cannot tamper with role assignments.
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP CRM - EMPLOYEE MANAGEMENT DIRECTORY]
-// In ShineUp CRM, human resource profiles tracked certifications and licenses:
-//
-// const SHINEUP_STAFF_ROW = {
-//   name: 'John Doe',
-//   certifications: ['EPA 608 Universal', 'OSHA 30'],
-//   billingMultiplier: 2.4
-// };
-//
-// Transformed below for quantitative sports and prediction market analysts.
-// ============================================================================
-*/
+// TODO: remove legacy contractor license comments
+// interface OldContractor { licenseNo: string; insuranceExp: string; }
 
 interface StaffViewProps {
   currentUser: StaffMember;

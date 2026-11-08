@@ -2,41 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { Plus, TrendingUp, Search } from 'lucide-react';
 import { StaffMember, ResearchItem, ResearchStatus } from '../../types';
 
-/**
- * Research Pipeline View Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * Reused vs. Bespoke Architecture:
- * 1. REUSED PATTERN: Multi-state pipeline filtering toolbar with active counters
- *    adapted from ShineUp's work order ticketing system.
- * 2. REUSED PATTERN: Dual layout rendering (Desktop data table vs. Mobile trading card
- *    stack) ensuring responsive parity across 360px phones to 4K ultra-wides.
- * 3. BESPOKE FOR TWOMANMARKETS: Prediction market pricing metrics — Implied probabilities,
- *    closing line value (CLV), fractional Kelly stake sizing recommendations, and
- *    bookmaker odds normalization (-110, +145, 78¢ Kalshi cents).
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP CRM - TICKET STATUS FILTER ARCHITECTURE]
-// In ShineUp CRM, tickets transitioned through:
-// const LEGACY_TICKET_STATES = ['Open', 'Dispatched', 'In Progress', 'Invoiced', 'Archived'];
-//
-// Refactored below into betting settlement lifecycle:
-// ['All', 'Pending', 'Invested', 'Won', 'Lost', 'Passed']
-// ============================================================================
-*/
+// TODO: remove legacy ticket filter states
+// const OLD_TICKET_STATES = ['Open', 'Dispatched', 'Invoiced'];
 
 interface ResearchViewProps {
   currentUser: StaffMember;

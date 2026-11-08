@@ -8,39 +8,8 @@ import {
 } from 'lucide-react';
 import { StaffMember, ChatMessage } from '../../types';
 
-/**
- * Team Chat & Communication View Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * 1. PERSISTENT WORKSPACE STREAM:
- *    Adapted from ShineUp CRM's multi-dispatch communication room.
- *    Provides real-time team chat with channel switching (`#announcements`,
- *    `#sports-picks`, `#macro-theses`, `#general`) plus 1-on-1 direct messages.
- * 2. BROADCAST CHANNEL ROLE GUARD:
- *    `#announcements` is locked down to read-only for Staff analysts. Only Co-Owners
- *    have the broadcast key to prevent noise in the official announcement log.
- * 3. MOBILE QUICK-SWITCHER PILL SCROLLER:
- *    Horizontal scrollable chip strip (`.mobile-channel-scroller`) for instant
- *    channel jumps on mobile devices without needing a nested drawer.
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP CRM - CHANNEL ROUTER SCHEMA]
-// In ShineUp CRM, dispatchers and field technicians shared:
-// channels: ['#field-dispatch', '#urgent-repairs', '#warehouse-parts']
-//
-// Refactored below for sports picks, macro theses, and direct partner DMs.
-// ============================================================================
-*/
+// TODO: remove legacy channel list comments
+// const OLD_CHANNELS = ['#field-dispatch', '#urgent-repairs'];
 
 interface ChatViewProps {
   currentUser: StaffMember;

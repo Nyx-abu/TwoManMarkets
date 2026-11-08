@@ -1,41 +1,6 @@
-/**
- * TwoManMarkets — Data Contracts, Models, and Domain Types
- * 
- * ============================================================================
- * ARCHITECTURE & PROVENANCE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * What we stripped down & reused vs. what is bespoke:
- * 1. REUSED PATTERN: The RBAC capability matrix model (`StaffPermissions`) and
- *    actor-based audit trail (`AuditLogItem`) were lifted directly from ShineUp's
- *    enterprise security layer. In ShineUp, we had 30+ permissions across HR,
- *    Invoicing, and Procurement. Here, we stripped it down to a tight, high-signal
- *    6-permission model tailored to capital allocation and trading risk.
- * 2. REUSED PATTERN: Multi-perspective session typing (`Role`, `StaffMember`, `User`)
- *    allowing instant perspective switching without needing real backend auth sessions
- *    during preview/stakeholder demo cycles.
- * 3. BESPOKE FOR TWOMANMARKETS: `ResearchItem` and `ResearchStatus` are 100% custom-built
- *    for sports betting lines and prediction market contracts (Kalshi, Polymarket,
- *    Pinnacle). We track implied probabilities, edge percentages (+/- %), Kelly
- *    suggested stakes, and P&L settlement lifecycle.
- * ============================================================================
- */
-
+// Data contracts and domain types
 export type Role = 'OWNER' | 'STAFF';
 
-/**
- * Granular Role-Based Access Control (RBAC) permissions.
- * Adapted from ShineUp CRM's enterprise permission schema:
- * Stripped down from complex multi-branch ERP controls to focus on
- * financial capital authorization, research flow, and staff governance.
- */
 export interface StaffPermissions {
   canSubmitResearch: boolean;
   canAllocateCapital: boolean;
@@ -45,13 +10,8 @@ export interface StaffPermissions {
   canManageStaff: boolean;
 }
 
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP CRM - REFERENCE ARCHIVE]
-// Keeping this archived block commented for audit & architectural explanation:
-// In https://shineup-crm-demo.vercel.app/crm/admin we used this heavy enterprise schema:
-//
-// export interface LegacyShineUpPermissions {
+// TODO: remove old permissions schema from previous project
+// export interface LegacyEnterprisePermissions {
 //   canManageTenants: boolean;
 //   canCreateInvoices: boolean;
 //   canApproveExpenses: boolean;
@@ -60,11 +20,6 @@ export interface StaffPermissions {
 //   canAccessWarehouseInventory: boolean;
 //   departmentAccess: ('HR' | 'Procurement' | 'FieldOperations' | 'Finance')[];
 // }
-//
-// For TwoManMarkets, Luis and Alex don't need inventory or field tech dispatch.
-// We streamlined this down to the 6 mission-critical prediction market controls above.
-// ============================================================================
-*/
 
 export interface StaffMember {
   id: string;
@@ -149,10 +104,7 @@ export interface NotificationItem {
   type: 'research' | 'task' | 'announcement';
 }
 
-/**
- * Immutable audit trail for administrative actions, capital sizing, and logins.
- * Reused from ShineUp CRM's system security logging architecture (`https://shineup-crm-demo.vercel.app/crm/admin`).
- */
+// Activity & security audit trail item
 export interface AuditLogItem {
   id: string;
   actor: string;

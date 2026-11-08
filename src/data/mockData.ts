@@ -9,49 +9,16 @@ import {
   LiveMarketTicker
 } from '../types';
 
-/**
- * TwoManMarkets — Initial Seed Data & State Fixtures
- * 
- * ============================================================================
- * ARCHITECTURE & DATA LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * In ShineUp CRM/ERP, our data seeds modeled enterprise construction, retail,
- * and manufacturing companies (technicians, warehouse stock, job invoices).
- * 
- * For TwoManMarkets, we took that proven relational schema structure and
- * completely retrofitted it for a quantitative sports & prediction market syndicate:
- * - Staff members now represent Quantitative Analysts & Capital Allocators
- * - Job invoices & tickets became Research Theses with bookmaker lines & Kelly stakes
- * - Work orders became analytical due-diligence Tasks
- * - System logs became financial settlement & capital allocation Audit Trails
- * ============================================================================
- */
+// Seed data & initial fixtures for preview
 
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP ERP - HISTORICAL DATA PATTERN]
-// In ShineUp CRM, user records had department tags and hourly billable rates:
-//
-// const LEGACY_SHINEUP_STAFF_EXAMPLE = {
+// TODO: remove legacy staff mock from previous project
+// const OLD_STAFF_MOCK = {
 //   id: 'emp-101',
 //   name: 'Marcus Vance',
-//   department: 'Field Operations / HVAC',
-//   billingRate: 85.00,
-//   assignedVanNumber: 'VAN-04',
-//   status: 'On Site'
+//   department: 'Field Operations',
+//   rate: 85.00,
+//   status: 'Active'
 // };
-//
-// Refactored below into quantitative sports betting roles (win rates, edge, bankroll).
-// ============================================================================
-*/
 
 export const INITIAL_STAFF: StaffMember[] = [
   {

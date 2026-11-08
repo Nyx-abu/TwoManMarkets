@@ -15,45 +15,11 @@ import {
 import { StaffMember, ResearchItem, DeskAnnouncement, TabType, FirmMetrics, PersonalMetrics, ChartConfig } from '../../types';
 import { LIVE_ODDS_TICKER } from '../../data/mockData';
 
-/**
- * Dashboard Overview View Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * 1. DUAL-SURFACE RESPONSIVENESS:
- *    Adapted directly from ShineUp ERP (`https://crm-erp-demo.vercel.app/dashboard`).
- *    On desktop (>900px), operators get high-density tabular data (`.desktop-only-table`).
- *    On mobile (<768px), it automatically switches to touch-first cards (`.mobile-only-cards`).
- *    This ensures 0px horizontal overflow across iPhone, Android, and tablets.
- * 
- * 2. ROLE-AWARE TELEMETRY ISOLATION:
- *    When viewed as Co-Owner (Luis/Alex), the dashboard surfaces aggregate firm bankroll,
- *    treasury drawdown, and dual-partner risk exposure. When viewed as an Analyst (Maya/Jordan),
- *    the firm treasury is masked with a clean privacy banner, displaying their personal
- *    hit rate, attribution edge, and assigned deliverables.
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP ERP - EXECUTIVE KPI SUITE]
-// Legacy ShineUp metric cards used this exact card grid structure:
-//
+// TODO: remove old KPI card layout comments
 // <div className="kpi-grid">
-//   <div className="kpi-card highlight">Gross Revenue / Pipeline</div>
-//   <div className="kpi-card">Customer Retention Rate</div>
-//   <div className="kpi-card">Net Operating Margin</div>
+//   <div className="kpi-card">Gross Revenue</div>
+//   <div className="kpi-card">Operating Margin</div>
 // </div>
-//
-// Repurposed below for active betting capital, win-rate attribution, and Kelly edge.
-// ============================================================================
-*/
 
 interface DashboardViewProps {
   currentUser: StaffMember;

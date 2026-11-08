@@ -8,44 +8,9 @@ import {
 } from 'lucide-react';
 import { TabType, StaffMember, NotificationItem } from '../../types';
 
-/**
- * Topbar Header & Navigation Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * In ShineUp ERP (`https://crm-erp-demo.vercel.app/dashboard`), we implemented
- * a multi-tenant switcher ("Viewing as Store #402 Manager", "Viewing as HQ Admin")
- * so auditors and operators could instantly test role-gating and permissions without
- * logging out and back in.
- * 
- * We adapted that exact pattern here into the "Viewing as: [Name] [ROLE]" switcher.
- * When you switch between Luis (Co-Owner) and Maya Chen (Sports Analyst), the
- * entire application reacts dynamically:
- * - Admin Settings locks down into an `.access-restricted-card`
- * - Dashboard & Analytics switch between Firm-Wide Treasury & Individual Hit-Rate
- * - Capital allocation buttons in research modals disable or hide
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP ERP - MULTI-PERSPECTIVE SWITCHER PATTERN]
-// In https://crm-erp-demo.vercel.app/dashboard:
-//
-// const SHINEUP_PERSPECTIVE_SWITCHER = {
-//   label: 'Switch Store Location / Management Role',
-//   trigger: `Acting as: ${currentRole.title} [${currentLocation.code}]`,
-//   locations: ['Chicago Central', 'Austin Factory', 'Seattle Retail']
-// };
-//
-// Adapted below into TwoManMarkets' dual-owner vs analyst persona switcher.
-// ============================================================================
-*/
+// TODO: remove legacy location switcher snippets
+// const locations = ['HQ', 'Store 1', 'Store 2'];
+// const [selectedBranch, setSelectedBranch] = useState('HQ');
 
 interface TopbarProps {
   activeTab: TabType;

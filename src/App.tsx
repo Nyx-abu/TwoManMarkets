@@ -25,26 +25,7 @@ import { NewAnnouncementModal } from './components/modals/NewAnnouncementModal';
 // Headless State Hook
 import { useAppState } from './hooks/useAppState';
 
-/**
- * TwoManMarkets — Principal Coordinator Application
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * Modular Decomposition:
- * - Decomposed from single 4,500-line monolith into a ~195-line pure coordinator.
- * - Reused from ShineUp ERP: RBAC capability matrix, multi-perspective switcher, dual table/card layout.
- * - Bespoke for TwoManMarkets: Prediction market thesis pipeline, Kelly stake sizing, settlement logging.
- * ============================================================================
- */
+// Top-level application coordinator & view router
 export default function App() {
   const s = useAppState();
 

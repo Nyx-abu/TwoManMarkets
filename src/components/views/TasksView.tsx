@@ -8,36 +8,8 @@ import {
 } from 'lucide-react';
 import { StaffMember, TaskItem } from '../../types';
 
-/**
- * Tasks & Deliverables Kanban View Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * 1. 3-COLUMN RESPONSIVE KANBAN ENGINE:
- *    Adapted from ShineUp CRM's project deliverables pipeline:
- *    - On desktop (>1024px): 3 columns side-by-side (`Pending`, `In Progress`, `Completed`).
- *    - On mobile (<768px): Segmented pill switcher (`.mobile-column-tabs`) toggling
- *      between columns to prevent horizontal page scrolling.
- * 2. TASK PROGRESS MONITOR:
- *    Dynamic completion telemetry bar showing urgent deliverables and real-time SLA completion %.
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP ERP - PROJECT DISPATCH KANBAN]
-// ShineUp CRM used this exact 3-state progression logic:
-// Pending -> In Progress -> Completed
-//
-// With bidirectional state transition buttons and Owner-only deletion guards.
-// ============================================================================
-*/
+// TODO: remove old dispatch progression comments
+// type OldStatus = 'QUEUED' | 'IN_PROGRESS' | 'RESOLVED';
 
 interface TasksViewProps {
   currentUser: StaffMember;

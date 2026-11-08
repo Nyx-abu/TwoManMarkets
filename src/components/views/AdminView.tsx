@@ -17,48 +17,8 @@ import {
 } from 'lucide-react';
 import { StaffMember, AuditLogItem, TabType } from '../../types';
 
-/**
- * Admin Settings & Governance View Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * Reused Architecture:
- * 1. ACCESS RESTRICTION CARD PATTERN:
- *    Lifted verbatim from ShineUp's enterprise role-guard component. If a non-Owner
- *    navigates to `/admin`, the view intercepts and presents a clean obsidian-emerald
- *    guard with an instant perspective-switch shortcut.
- * 2. RBAC PERMISSIONS MATRIX:
- *    Adapted from ShineUp CRM's multi-tenant permissions engine (`https://shineup-crm-demo.vercel.app/crm/admin`).
- *    Explicitly documents which capabilities require Co-Owner credentials vs Staff access.
- * 3. REAL-TIME AUDIT LOG:
- *    Categorized immutable audit stream (`CAPITAL`, `STAFF`, `AUTH`, `TASK`, `ANNOUNCEMENT`).
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP CRM - RBAC SECURITY MATRIX ENGINE]
-// In https://shineup-crm-demo.vercel.app/crm/admin, we had:
-//
-// const SHINEUP_RBAC_RULES = [
-//   { resource: 'Billing & Invoicing', admin: 'Full', staff: 'None' },
-//   { resource: 'Technician Scheduling', admin: 'Full', staff: 'View Only' },
-//   { resource: 'Inventory Procurement', admin: 'Full', staff: 'Request Only' }
-// ];
-//
-// Below, we adapted this matrix to TwoManMarkets dual-owner governance:
-// Sizing Capital, Staff Accounts, Treasury Balances, Research Theses, and Announcements.
-// ============================================================================
-*/
+// TODO: remove old tenant permission rules
+// const OLD_TENANT_RULES = ['MANAGE_SUBSCRIPTION', 'VIEW_RAW_METRICS'];
 
 interface AdminViewProps {
   currentUser: StaffMember;

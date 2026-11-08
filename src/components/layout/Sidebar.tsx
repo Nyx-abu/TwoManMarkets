@@ -13,44 +13,11 @@ import {
 } from 'lucide-react';
 import { TabType, StaffMember } from '../../types';
 
-/**
- * Sidebar Navigation Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * In ShineUp CRM, the sidebar was organized by departmental verticals:
- * [Projects, Field Service, HR & Staff, Invoices & Billing, Settings].
- * 
- * For TwoManMarkets, we kept the exact high-density collapsed/expanded mobile
- * responsive drawer architecture, but streamlined the taxonomy into 3 clean tiers:
- * 1. WORKSPACE: Everyday trading & intelligence loop (Dashboard, Research, Tasks, Chat)
- * 2. ANALYTICS & TEAM: Attribution, leaderboards, and analyst profiles
- * 3. ADMINISTRATION: Dual-owner governance (hidden automatically from Staff accounts)
- * 
- * Responsive Note: Supports mobile overlay drawer (<900px) with backdrop dismissal
- * and desktop pinned sidebar (>900px).
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP CRM - SIDEBAR SECTION TAXONOMY]
-// Legacy ShineUp CRM navigation structure:
-//
-// const SHINEUP_NAV_SECTIONS = [
-//   { section: 'OPERATIONS', links: ['Work Orders', 'Dispatch Board', 'Site Audits'] },
-//   { section: 'COMMERCIAL', links: ['Invoices', 'Estimates', 'Accounts Payable'] },
-//   { section: 'ADMIN', links: ['Tenants', 'RBAC Matrix', 'Audit Trail'] }
+// TODO: remove old nav taxonomy comments
+// const OLD_NAV_SECTIONS = [
+//   { section: 'OPERATIONS', links: ['Work Orders', 'Dispatch Board'] },
+//   { section: 'COMMERCIAL', links: ['Invoices', 'Estimates'] }
 // ];
-//
-// Refactored below for TwoManMarkets quantitative sports betting workflow.
-// ============================================================================
-*/
 
 interface SidebarProps {
   activeTab: TabType;

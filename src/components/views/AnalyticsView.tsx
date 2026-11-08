@@ -12,44 +12,8 @@ import {
 } from 'lucide-react';
 import { StaffMember, ResearchItem, FirmMetrics, PersonalMetrics, CategoryMetric } from '../../types';
 
-/**
- * Analytics & Reports View Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE:
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * "闇 • Nyx [CODE], — 08:38 PM
- * https://shineup-crm-demo.vercel.app/crm/admin
- * previously done project. this is the direction we will go.
- * https://crm-erp-demo.vercel.app/dashboard more on what I stripped down for you here.
- * [ShineUp CRM/ERP - Enterprise Business Management](https://crm-erp-demo.vercel.app/dashboard)
- * Complete CRM and ERP solution for construction, manufacturing, services, and retail businesses. Manage projects, HR, invoices, and more."
- * 
- * Reused Architecture:
- * 1. LEADERBOARD & ATTRIBUTION ENGINE:
- *    Adapted from ShineUp CRM's employee commission & billable hours engine.
- *    Ranks staff by quantitative hit rate, net P&L generated, and edge over market.
- * 2. HISTORICAL RECORD FILTERING & CLIENT-SIDE CSV GENERATOR:
- *    Reused from ShineUp's financial audit export routine. Dynamically builds
- *    proper RFC 4180 CSV blobs with escaped fields and triggers instant browser downloads.
- * 3. ROLE-SEGREGATED REPORTING:
- *    Prevents junior analysts from viewing firm-wide treasury balances while still
- *    giving them transparent, inspiring access to their personal hit rates and streak stats.
- * ============================================================================
- */
-
-/*
-// ============================================================================
-// [REUSED FROM SHINEUP ERP - ANALYTICS DATA EXPORT ENGINE]
-// In https://crm-erp-demo.vercel.app/dashboard:
-//
-// const SHINEUP_CSV_COLUMNS = ['InvoiceID', 'Client', 'TotalAmount', 'Status', 'Technician'];
-//
-// Transformed below into TwoManMarkets syndicate ledger:
-// ['ID', 'Market', 'Category', 'Book', 'Odds', 'Edge', 'Stake', 'Status', 'Profit', 'ROI', 'Author', 'Date']
-// ============================================================================
-*/
+// TODO: remove old commission calc snippets
+// const calcCommission = (rev: number, rate: number) => rev * rate;
 
 interface AnalyticsViewProps {
   currentUser: StaffMember;

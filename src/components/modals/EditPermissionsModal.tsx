@@ -2,28 +2,6 @@ import React from 'react';
 import { X, Check } from 'lucide-react';
 import { StaffMember, StaffPermissions } from '../../types';
 
-/**
- * Edit Staff Member & Permissions Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * Lifted directly from ShineUp CRM's RBAC matrix editor (`/crm/admin`).
- * Provides toggleable capability controls with explicit descriptions:
- * - canSubmitResearch
- * - canAllocateCapital
- * - canManageTasks
- * - canViewAnalytics
- * - canPostAnnouncements
- * - canManageStaff
- * ============================================================================
- */
-
 interface EditPermissionsModalProps {
   member: StaffMember | null;
   onClose: () => void;

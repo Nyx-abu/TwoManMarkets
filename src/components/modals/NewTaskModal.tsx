@@ -2,23 +2,6 @@ import React from 'react';
 import { X, Check } from 'lucide-react';
 import { StaffMember, TaskItem } from '../../types';
 
-/**
- * Create & Assign Task Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * Adapted from ShineUp CRM's Work Order Creation Dialog.
- * Enforces assignment to active staff members with priority tagging
- * (Urgent, High, Medium, Low) and deadline tracking.
- * ============================================================================
- */
-
 interface NewTaskModalProps {
   isOpen: boolean;
   onClose: () => void;

@@ -9,27 +9,6 @@ import {
 } from 'lucide-react';
 import { StaffMember, ResearchItem } from '../../types';
 
-/**
- * Review & Capital Allocation / Sizing Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * 1. WORK ORDER CAPITAL APPROVAL HARNESS:
- *    Adapted from ShineUp CRM's expense and procurement authorization modal.
- *    In ShineUp, managers reviewed subcontractor quotes before releasing purchase orders.
- *    Here, Co-Owners review analyst quantitative theses and authorize actual cash stakes.
- * 2. POSITION SETTLEMENT LIFECYCLE:
- *    Handles P&L calculation, net profit delta tracking, and ROI attribution upon
- *    market settlement.
- * ============================================================================
- */
-
 interface ReviewSizeModalProps {
   item: ResearchItem | null;
   onClose: () => void;

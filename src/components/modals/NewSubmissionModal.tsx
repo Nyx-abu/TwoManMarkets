@@ -2,26 +2,6 @@ import React from 'react';
 import { X, Plus } from 'lucide-react';
 import { StaffMember, ResearchItem } from '../../types';
 
-/**
- * Submit New Research Thesis Modal Component
- * 
- * ============================================================================
- * ARCHITECTURE & LINEAGE NOTE (Nyx - 08:38 PM):
- * ----------------------------------------------------------------------------
- * Direction / Lineage:
- * - https://shineup-crm-demo.vercel.app/crm/admin
- * - https://crm-erp-demo.vercel.app/dashboard
- * 
- * Reused Architecture:
- * 1. MODAL DIALOG BACKDROP & ESCAPE CONTROLS:
- *    Adapted from ShineUp CRM's accessible modal harness (`.modal-backdrop`, `.modal-dialog`).
- *    Clicking outside dialog or hitting Cancel safely resets form state without leaks.
- * 2. STRUCTURED RESEARCH CONTRACT:
- *    Unlike generic free-text notes, this enforces structured quantitative fields:
- *    Quoted odds, market platform, implied probabilities, and Kelly stake recommendations.
- * ============================================================================
- */
-
 interface NewSubmissionModalProps {
   isOpen: boolean;
   onClose: () => void;
