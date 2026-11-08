@@ -191,23 +191,24 @@ a {
 }
 
 .sidebar-header {
-  padding: 20px 18px 16px;
+  padding: 22px 18px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   border-bottom: 1px solid var(--border-subtle);
+  min-height: 84px;
 }
 
 .brand-wrapper {
   display: flex;
   align-items: center;
-  gap: 12px;
+  width: 100%;
 }
 
 .brand-logo-img {
-  height: 32px;
+  height: 52px;
   width: auto;
-  max-width: 140px;
+  max-width: 175px;
   object-fit: contain;
   filter: none;
 }
@@ -1910,7 +1911,7 @@ a {
 }
 
 .topbar-mobile-logo {
-  height: 24px;
+  height: 28px;
   width: auto;
 }
 
