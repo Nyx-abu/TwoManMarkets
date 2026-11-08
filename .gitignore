@@ -12,3 +12,12 @@ dist/
 PROJECT_MASTER_SPEC.md
 
 .vercel
+*.exe
+.agent/
+.agents/
+.claude/
+.codex/
+.cursor/
+.gemini/
+.opencode/
+.pi/

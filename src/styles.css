@@ -91,6 +91,13 @@ html, body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-medium) transparent;
+}
+
+::selection {
+  background-color: rgba(16, 185, 129, 0.28);
+  color: #ffffff;
 }
 
 button {
@@ -111,6 +118,25 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 input, select, textarea {
   font-family: inherit;
   color: inherit;
+  caret-color: var(--emerald);
+}
+
+/* Tabular Numerals for Financial Data & Precision Alignment */
+.data-table td,
+.data-table th,
+.kpi-value,
+.odds-tag,
+.pnl-tag,
+.edge-badge,
+.table-roi,
+.profile-metric-val,
+.card-stat-val,
+.chart-meta-val,
+.task-due-date,
+.audit-timestamp,
+.kpi-trend {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
 }
 
 a {
@@ -533,6 +559,10 @@ a {
   transform: translateY(-1px);
 }
 
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -544,11 +574,16 @@ a {
   color: var(--text-primary);
   font-weight: 600;
   font-size: 12px;
+  transition: all 0.15s ease;
 }
 
 .btn-secondary:hover {
   background: var(--bg-card-hover);
   border-color: var(--text-muted);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
 }
 
 /* Notification Drawer */
@@ -1231,6 +1266,10 @@ a {
   background: var(--bg-card-hover);
   color: var(--text-primary);
   border-color: var(--border-medium);
+}
+
+.filter-tab-btn:active {
+  transform: scale(0.97);
 }
 
 .filter-tab-btn.active {
