@@ -1446,16 +1446,6 @@ export default function App() {
                 </div>
               )}
             </div>
-
-            {/* Quick Action: New Research Submission */}
-            <button
-              className="btn-primary topbar-cta-btn"
-              onClick={() => setNewSubmissionModalOpen(true)}
-              title="Submit New Research Thesis"
-            >
-              <Plus size={16} />
-              <span className="topbar-cta-text">Submit Research</span>
-            </button>
           </div>
         </header>
 
