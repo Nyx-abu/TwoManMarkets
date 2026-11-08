@@ -1,7 +1,0 @@
-flowchart LR
-    Event[Committed outbox] --> Claim[Claim lease]
-    Claim --> Deliver[Insert recipient alert]
-    Deliver --> Done[Mark completed]
-    Deliver --> Retry[Schedule retry]
-    Retry --> Claim
-    Retry --> Failed[Retain failed event]

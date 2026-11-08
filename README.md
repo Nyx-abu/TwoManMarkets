@@ -13,7 +13,7 @@ TwoManMarkets is a proprietary research and investment desk focused on predictio
 3. **Settlement Ledger & Analytics**: Tracks outcomes (Won/Lost/Push), computes firm-wide Net P&L and ROI, and ranks analysts on a monthly performance leaderboard.
 4. **Task Management Board**: 3-column Kanban board for sprint deliverables and research quotas.
 5. **Team Chat & Announcements**: Dedicated channels (`#announcements`, `#sports-picks`, `#macro-theses`, `#general`) and 1-on-1 direct messages.
-6. **Executive System Architecture**: Embedded system blueprint and security documentation for leadership review.
+6. **Staff & Permissions Management**: Dedicated employee directory, custom role assignments, and activity audit logging.
 
 ---
 
@@ -55,6 +55,6 @@ This repository is pre-configured for instant deployment on Vercel:
 
 ---
 
-## Architecture Documentation
+## UI Stakeholder Guide
 
-- [Executive System Blueprint](docs/EXECUTIVE_ARCHITECTURE_PROPOSAL.md): Plain-English architectural proposal for TwoManMarkets leadership.
+- [Code & UI Walkthrough Guide](docs/CODE_EXPLANATION_GUIDE.md): Practical walkthrough guide for explaining the UI, workflows, and features to stakeholders and clients.
