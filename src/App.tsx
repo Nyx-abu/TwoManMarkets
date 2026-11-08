@@ -7,7 +7,6 @@ import {
   BarChart3,
   Users,
   ShieldCheck,
-  Layers,
   Search,
   Bell,
   ChevronDown,
@@ -28,7 +27,6 @@ import {
   Crown,
   Lock,
   Key,
-  Zap,
   Radio,
   Flame,
   Edit,
@@ -79,7 +77,7 @@ export interface StaffMember {
   };
 }
 
-export type TabType = 'overview' | 'research' | 'tasks' | 'chat' | 'analytics' | 'team' | 'admin' | 'blueprint';
+export type TabType = 'overview' | 'research' | 'tasks' | 'chat' | 'analytics' | 'team' | 'admin';
 
 export type ResearchStatus = 'Pending' | 'Invested' | 'Won' | 'Lost' | 'Passed';
 
@@ -1289,10 +1287,10 @@ export default function App() {
             </button>
           </div>
 
-          {/* Administration & Blueprint Section */}
-          <div className="nav-section">
-            <span className="nav-section-title">ADMINISTRATION</span>
-            {currentUser.role === 'OWNER' && (
+          {/* Administration Section (Owner Only) */}
+          {currentUser.role === 'OWNER' && (
+            <div className="nav-section">
+              <span className="nav-section-title">ADMINISTRATION</span>
               <button
                 className={`nav-link ${activeTab === 'admin' ? 'active' : ''}`}
                 onClick={() => { setActiveTab('admin'); setMobileMenuOpen(false); }}
@@ -1300,16 +1298,8 @@ export default function App() {
                 <ShieldCheck size={18} />
                 <span>Admin Settings</span>
               </button>
-            )}
-
-            <button
-              className={`nav-link ${activeTab === 'blueprint' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('blueprint'); setMobileMenuOpen(false); }}
-            >
-              <Layers size={18} />
-              <span>System Architecture</span>
-            </button>
-          </div>
+            </div>
+          )}
         </div>
 
         {/* User Profile Card & Role Indicator */}
@@ -1368,7 +1358,6 @@ export default function App() {
                 {activeTab === 'analytics' && 'Analytics & Reports'}
                 {activeTab === 'team' && 'Staff Management'}
                 {activeTab === 'admin' && 'Admin Settings'}
-                {activeTab === 'blueprint' && 'System Architecture'}
               </span>
             </div>
           </div>
@@ -3247,140 +3236,6 @@ export default function App() {
                 </div>
               </div>
             )
-          )}
-
-          {/* ==============================================================
-              PAGE 8: SYSTEM ARCHITECTURE & TECHNICAL BLUEPRINT
-              ============================================================== */}
-          {activeTab === 'blueprint' && (
-            <div>
-              <div className="page-header">
-                <div className="page-title-group">
-                  <h1>TwoManMarkets — Platform Architecture & Technical Blueprint</h1>
-                  <p>Comprehensive operating architecture, zero-trust security framework, and capital execution pipeline.</p>
-                </div>
-                <div className="status-pill won">
-                  <ShieldCheck size={14} /> Production Infrastructure
-                </div>
-              </div>
-
-              <div className="blueprint-grid">
-                {/* 1. The 3-Stage Operating Pipeline */}
-                <div className="blueprint-card">
-                  <div className="blueprint-card-header">
-                    <span className="blueprint-step-num">1</span>
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>
-                        Three-Stage Investment & Research Process
-                      </h3>
-                      <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>
-                        How research moves safely from employee analysts to owner capital allocation
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="blueprint-flow-diagram">
-                    <div className="flow-step-box">
-                      <h4>STAGE 1: RESEARCH & SOURCING</h4>
-                      <p>
-                        Analysts identify high-conviction lines on Polymarket, Kalshi, or sportsbooks.
-                        They input Market Name, Current Odds, Implied Probability, Calculated Edge, and Thesis Link.
-                      </p>
-                    </div>
-
-                    <div className="flow-step-box active">
-                      <h4>STAGE 2: OWNER CAPITAL ALLOCATION</h4>
-                      <p>
-                        The two Co-Owners (Luis & Partner) receive instant in-app alerts.
-                        Owners independently size positions, approve exact investment amounts ($), or pass with notes.
-                      </p>
-                    </div>
-
-                    <div className="flow-step-box">
-                      <h4>STAGE 3: SETTLEMENT & PERFORMANCE LOGGING</h4>
-                      <p>
-                        Once markets resolve, outcomes (Won/Lost/Push) are logged with payouts.
-                        Automated ledger computes firm-wide ROI, net profit, and analyst leaderboard metrics.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 2. Security & Bankroll Privacy Model */}
-                <div className="blueprint-card">
-                  <div className="blueprint-card-header">
-                    <span className="blueprint-step-num">2</span>
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>
-                        Zero-Trust Security & Capital Isolation
-                      </h3>
-                      <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>
-                        Strict boundaries protecting firm financial balances
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="tech-spec-grid">
-                    <div className="tech-spec-item">
-                      <strong><Lock size={14} /> Bankroll Confidentiality</strong>
-                      <span>Staff can never view total firm balance or other analysts' allocations unless explicitly authorized.</span>
-                    </div>
-
-                    <div className="tech-spec-item">
-                      <strong><Key size={14} /> Dual-Owner Governance</strong>
-                      <span>Only the two designated Owner accounts hold administrative authority to provision staff, adjust permissions, and allocate capital.</span>
-                    </div>
-
-                    <div className="tech-spec-item">
-                      <strong><Zap size={14} /> Real-Time In-App Feeds</strong>
-                      <span>Zero dependency on third-party webhooks. Clean notification center with unread counters.</span>
-                    </div>
-
-                    <div className="tech-spec-item">
-                      <strong><ShieldCheck size={14} /> Row-Level Database Security</strong>
-                      <span>PostgreSQL database tables protected by cryptographic user session tokens and role guards.</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 3. Production Technology Stack */}
-                <div className="blueprint-card">
-                  <div className="blueprint-card-header">
-                    <span className="blueprint-step-num">3</span>
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>
-                        Production Tech Stack (Built for 60fps &amp; Reliability)
-                      </h3>
-                      <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>
-                        Modern, proven software engineering stack deployed globally
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="tech-spec-grid">
-                    <div className="tech-spec-item">
-                      <strong>Frontend &amp; UI</strong>
-                      <span>React 19 / TypeScript with Obsidian &amp; Natural Emerald theme. Fully responsive across desktop, tablet, and mobile.</span>
-                    </div>
-
-                    <div className="tech-spec-item">
-                      <strong>Database &amp; Storage</strong>
-                      <span>PostgreSQL on Neon/Supabase with Prisma ORM. Fully ACID-compliant for financial accuracy.</span>
-                    </div>
-
-                    <div className="tech-spec-item">
-                      <strong>Real-Time Messaging</strong>
-                      <span>WebSocket event bus powering instant chat feeds, odds alerts, and task updates without page reload.</span>
-                    </div>
-
-                    <div className="tech-spec-item">
-                      <strong>Hosting &amp; Edge</strong>
-                      <span>Vercel Global Edge CDN with SSL encryption, DDoS mitigation, and 99.99% availability.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           )}
         </main>
       </div>

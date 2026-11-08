@@ -79,8 +79,7 @@ try {
     'Team Chat',
     'Analytics & Reports',
     'Staff Management',
-    'Admin Settings',
-    'System Architecture'
+    'Admin Settings'
   ];
 
   for (const width of [360, 390, 414, 768, 1280]) {
