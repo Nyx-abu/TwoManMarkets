@@ -587,7 +587,6 @@ export default function App() {
               alt="TwoManMarkets Logo"
               className="brand-logo-img"
             />
-            <span className="brand-version-badge">DESK v1.0</span>
           </div>
           <button
             className="mobile-menu-btn"
@@ -737,7 +736,7 @@ export default function App() {
 
             <div className="market-status-pill">
               <span className="pulsing-dot" />
-              <span>DESK ACTIVE · LIVE FEED</span>
+              <span>LIVE MARKETS</span>
             </div>
           </div>
 
@@ -838,11 +837,12 @@ export default function App() {
 
             {/* Quick Action: New Research Submission */}
             <button
-              className="btn-primary"
+              className="btn-primary topbar-cta-btn"
               onClick={() => setNewSubmissionModalOpen(true)}
+              title="Submit New Market Thesis"
             >
               <Plus size={16} />
-              <span>Submit Pick</span>
+              <span className="topbar-cta-text">Submit Pick</span>
             </button>
           </div>
         </header>
@@ -886,7 +886,7 @@ export default function App() {
                   <h1>Welcome back, {currentUser.name}</h1>
                   <p>Syndicate Capital & Research Intelligence Terminal · Real-time operational overview</p>
                 </div>
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div className="header-actions">
                   <button className="btn-secondary" onClick={() => setActiveTab('research')}>
                     <Target size={14} />
                     <span>View Research Pipeline</span>
@@ -989,8 +989,8 @@ export default function App() {
                     <svg className="chart-svg" viewBox="0 0 700 200" preserveAspectRatio="none">
                       <defs>
                         <linearGradient id="emerald-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#00f59b" stopOpacity="0.35" />
-                          <stop offset="100%" stopColor="#00f59b" stopOpacity="0.0" />
+                          <stop offset="0%" stopColor="#10b981" stopOpacity="0.25" />
+                          <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
                         </linearGradient>
                       </defs>
 
@@ -1011,8 +1011,8 @@ export default function App() {
                         className="chart-line-stroke"
                       />
 
-                      {/* Terminal Glow Point */}
-                      <circle cx="700" cy="20" r="5" fill="#00f59b" stroke="#05140b" strokeWidth="2" />
+                      {/* Terminal Point */}
+                      <circle cx="700" cy="20" r="4.5" fill="#10b981" stroke="#09090b" strokeWidth="2" />
                     </svg>
                     <div className="chart-axis-labels">
                       <span>Oct 10</span>
@@ -1109,7 +1109,7 @@ export default function App() {
                   </button>
                 </div>
 
-                <div className="table-responsive">
+                <div className="table-responsive desktop-only-table">
                   <table className="data-table">
                     <thead>
                       <tr>
@@ -1174,6 +1174,64 @@ export default function App() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Mobile & Tablet Card View for Command Center */}
+                <div className="mobile-only-cards">
+                  {researchList.slice(0, 4).map(item => (
+                    <div key={item.id} className="mobile-research-card">
+                      <div className="mobile-card-header">
+                        <div className="mobile-card-badges">
+                          <span className="category-chip">{item.category}</span>
+                          <span className="exchange-tag">{item.book}</span>
+                        </div>
+                        <span className={`status-pill ${item.status.toLowerCase()}`}>
+                          {item.status}
+                        </span>
+                      </div>
+
+                      <h4 className="mobile-card-title">{item.market}</h4>
+                      <div className="mobile-card-meta">{item.id} · {item.date}</div>
+
+                      <div className="mobile-metrics-strip">
+                        <div className="mobile-metric-item">
+                          <span className="metric-lbl">Market Odds</span>
+                          <span className="metric-val odds">{item.odds}</span>
+                        </div>
+
+                        <div className="mobile-metric-item">
+                          <span className="metric-lbl">Calculated Edge</span>
+                          <span className="metric-val edge">
+                            <TrendingUp size={11} /> {item.edge}
+                          </span>
+                        </div>
+
+                        <div className="mobile-metric-item">
+                          <span className="metric-lbl">Suggested Stake</span>
+                          <span className="metric-val stake">${item.suggestedStake.toLocaleString()}</span>
+                        </div>
+                      </div>
+
+                      <div className="mobile-card-footer">
+                        <div className="mobile-author-info">
+                          <div className="user-avatar staff" style={{ width: 22, height: 22, fontSize: 10 }}>
+                            {item.authorInitials}
+                          </div>
+                          <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{item.author}</span>
+                        </div>
+
+                        <button
+                          className="btn-secondary mobile-card-btn"
+                          onClick={() => {
+                            setReviewModalItem(item);
+                            setInvestAmountInput(item.suggestedStake.toString());
+                          }}
+                        >
+                          Review &amp; Size
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -1188,13 +1246,15 @@ export default function App() {
                   <h1>Prediction Market Research Portal</h1>
                   <p>Staff analysts scout markets and submit theses; Co-Owners review, size capital, and execute investments.</p>
                 </div>
-                <button
-                  className="btn-primary"
-                  onClick={() => setNewSubmissionModalOpen(true)}
-                >
-                  <Plus size={16} />
-                  <span>New Research Thesis</span>
-                </button>
+                <div className="header-actions">
+                  <button
+                    className="btn-primary"
+                    onClick={() => setNewSubmissionModalOpen(true)}
+                  >
+                    <Plus size={16} />
+                    <span>New Research Thesis</span>
+                  </button>
+                </div>
               </div>
 
               {/* Filter Toolbar */}
@@ -1211,7 +1271,7 @@ export default function App() {
                   ))}
                 </div>
 
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div className="filter-secondary-group">
                   <div className="filter-group">
                     {['All', 'Sports', 'Macro', 'Crypto', 'Politics'].map(cat => (
                       <button
@@ -1388,10 +1448,12 @@ export default function App() {
                   <h1>Task Operations & Deliverables Board</h1>
                   <p>Assign responsibilities, research quotas, model audits, and track sprint deadlines.</p>
                 </div>
-                <button className="btn-primary" onClick={() => setNewTaskModalOpen(true)}>
-                  <Plus size={16} />
-                  <span>Create Task</span>
-                </button>
+                <div className="header-actions">
+                  <button className="btn-primary" onClick={() => setNewTaskModalOpen(true)}>
+                    <Plus size={16} />
+                    <span>Create Task</span>
+                  </button>
+                </div>
               </div>
 
               {/* Mobile Segmented Column Tabs */}
@@ -1775,15 +1837,17 @@ export default function App() {
                   <p>Registered staff accounts, responsibilities, performance metrics, and account status.</p>
                 </div>
                 {currentUser.role === 'OWNER' && (
-                  <button className="btn-primary" onClick={() => setAddMemberModalOpen(true)}>
-                    <Plus size={16} />
-                    <span>Invite Team Member</span>
-                  </button>
+                  <div className="header-actions">
+                    <button className="btn-primary" onClick={() => setAddMemberModalOpen(true)}>
+                      <Plus size={16} />
+                      <span>Invite Team Member</span>
+                    </button>
+                  </div>
                 )}
               </div>
 
               <div className="panel-card">
-                <div className="table-responsive">
+                <div className="table-responsive desktop-only-table">
                   <table className="data-table">
                     <thead>
                       <tr>
@@ -1839,6 +1903,57 @@ export default function App() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Mobile Cards View for Staff & Directory */}
+                <div className="mobile-only-cards">
+                  {PROFILES.map(p => (
+                    <div key={p.id} className="mobile-research-card">
+                      <div className="mobile-card-header">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <div className={`user-avatar ${p.avatarClass}`}>
+                            {p.initials}
+                          </div>
+                          <div>
+                            <strong style={{ fontSize: '13px', color: 'var(--text-primary)' }}>{p.name}</strong>
+                            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>ID: {p.id}</div>
+                          </div>
+                        </div>
+                        <span className={`status-pill ${p.role === 'OWNER' ? 'won' : 'invested'}`}>
+                          {p.role === 'OWNER' ? '👑 CO-OWNER' : '📊 RESEARCHER'}
+                        </span>
+                      </div>
+
+                      <div className="mobile-metrics-strip">
+                        <div className="mobile-metric-item">
+                          <span className="metric-lbl">Role / Title</span>
+                          <span className="metric-val" style={{ fontSize: '11px' }}>{p.title}</span>
+                        </div>
+                        <div className="mobile-metric-item">
+                          <span className="metric-lbl">Theses</span>
+                          <span className="metric-val" style={{ fontSize: '11px' }}>{p.role === 'OWNER' ? 'Allocator' : '14 Logged'}</span>
+                        </div>
+                        <div className="mobile-metric-item">
+                          <span className="metric-lbl">Tasks</span>
+                          <span className="metric-val" style={{ fontSize: '11px' }}>{p.role === 'OWNER' ? 'Admin' : '85% Done'}</span>
+                        </div>
+                      </div>
+
+                      <div className="mobile-card-footer">
+                        <span className="status-pill won">● Active Account</span>
+                        {currentUser.role === 'OWNER' ? (
+                          <button
+                            className="btn-secondary mobile-card-btn"
+                            onClick={() => setActiveTab('admin')}
+                          >
+                            Manage Access
+                          </button>
+                        ) : (
+                          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Read only</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -1853,10 +1968,12 @@ export default function App() {
                   <h1>Co-Owner Master Control Panel</h1>
                   <p>Full control over employee accounts, RBAC permissions, company announcements, and security audit logs.</p>
                 </div>
-                <button className="btn-primary" onClick={() => setAddMemberModalOpen(true)}>
-                  <Plus size={16} />
-                  <span>Add Staff Account</span>
-                </button>
+                <div className="header-actions">
+                  <button className="btn-primary" onClick={() => setAddMemberModalOpen(true)}>
+                    <Plus size={16} />
+                    <span>Add Staff Account</span>
+                  </button>
+                </div>
               </div>
 
               {/* RBAC Permission Matrix */}
@@ -1962,11 +2079,11 @@ export default function App() {
             <div>
               <div className="page-header">
                 <div className="page-title-group">
-                  <h1>TwoManMarkets — Executive System Blueprint & Architecture</h1>
-                  <p>Comprehensive operating architecture, security isolation framework, and 7-day launch roadmap.</p>
+                  <h1>TwoManMarkets — Executive Architecture Blueprint</h1>
+                  <p>Comprehensive operating architecture, security isolation framework, and capital execution pipeline.</p>
                 </div>
                 <div className="status-pill won">
-                  <ShieldCheck size={14} /> Production Ready Design
+                  <ShieldCheck size={14} /> Verified Architecture
                 </div>
               </div>
 
@@ -2066,7 +2183,7 @@ export default function App() {
                   <div className="tech-spec-grid">
                     <div className="tech-spec-item">
                       <strong>Frontend &amp; UI</strong>
-                      <span>React 19 / Next.js with Obsidian &amp; High-Voltage Emerald theme. 100% responsive desktop &amp; mobile.</span>
+                      <span>React 19 / TypeScript with Obsidian &amp; Natural Emerald theme. Fully responsive across desktop, tablet, and mobile.</span>
                     </div>
 
                     <div className="tech-spec-item">
@@ -2082,93 +2199,6 @@ export default function App() {
                     <div className="tech-spec-item">
                       <strong>Hosting &amp; Edge</strong>
                       <span>Vercel Global Edge CDN with SSL encryption, DDoS mitigation, and 99.99% availability.</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 4. 7-Day Sprint Delivery Plan */}
-                <div className="blueprint-card">
-                  <div className="blueprint-card-header">
-                    <span className="blueprint-step-num">4</span>
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>
-                        7-Day Sprint Implementation Timeline
-                      </h3>
-                      <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>
-                        Clear delivery milestones for Luis and the TwoManMarkets team
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="roadmap-timeline">
-                    <div className="roadmap-step">
-                      <span className="roadmap-day-tag">Day 1</span>
-                      <div>
-                        <strong>Foundation, Auth &amp; Two Master Owner Accounts</strong>
-                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                          Database setup, JWT authentication, RBAC middleware, and logo integration.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="roadmap-step">
-                      <span className="roadmap-day-tag">Day 2</span>
-                      <div>
-                        <strong>Overview Command Center &amp; Live Tickers</strong>
-                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                          KPI cards, responsive navigation shell, and announcement dispatcher.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="roadmap-step">
-                      <span className="roadmap-day-tag">Day 3</span>
-                      <div>
-                        <strong>Prediction Research Submission &amp; Sizing Engine</strong>
-                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                          Scout intake forms, owner capital approval modals, and odds calculations.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="roadmap-step">
-                      <span className="roadmap-day-tag">Day 4</span>
-                      <div>
-                        <strong>Task Management Board &amp; Deliverables Kanban</strong>
-                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                          Task drag-and-drop, assignment dropdowns, priority tags, and deadline monitors.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="roadmap-step">
-                      <span className="roadmap-day-tag">Day 5</span>
-                      <div>
-                        <strong>Staff Chat, Channels &amp; In-App Notification Center</strong>
-                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                          Channel messaging (#general, #sports-picks, #announcements), unread counter badges.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="roadmap-step">
-                      <span className="roadmap-day-tag">Day 6</span>
-                      <div>
-                        <strong>Portfolio Analytics, Settlement Ledger &amp; Admin Panel</strong>
-                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                          Interactive P&amp;L charts, category breakdown, analyst leaderboard, and staff CRUD.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="roadmap-step">
-                      <span className="roadmap-day-tag">Day 7</span>
-                      <div>
-                        <strong>QA, Mobile Polish &amp; Staging Deployment</strong>
-                        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                          End-to-end testing, responsive verification, and final staging handoff.
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
