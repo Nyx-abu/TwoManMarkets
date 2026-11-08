@@ -20,7 +20,7 @@ TwoManMarkets operates an investment syndicate researching prediction markets (P
 ## Tech Stack
 
 - **Framework**: React 19 / TypeScript / Vite (Zero-dependency ultra-fast client bundle)
-- **Design System**: Obsidian & High-Voltage Neon Emerald (`#00f59b`), custom responsive CSS matching the official brand logo.
+- **Design System**: Matte Obsidian & Natural Emerald (`#10b981`), Geist & IBM Plex typography, custom responsive CSS with zero horizontal overflow across mobile, tablet, and desktop.
 - **Icons**: Lucide React
 - **Hosting**: Vercel Edge / Global CDN
 

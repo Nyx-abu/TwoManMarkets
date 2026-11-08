@@ -8,10 +8,11 @@
 
 ## 2. Critical UI & Design Upgrades
 - **Brand Identity**: Proper integration of the actual 1536x1024 TwoManMarkets logo (neon green & pure white "TM" chevron mark) across sidebar, topbar, favicon, and login preview.
-- **Color Palette (Obsidian & High-Voltage Emerald)**:
-  - Deep Obsidian (`#09090b` / `#0d1117`), Zinc Surfaces (`#13161c` / `#1a1e26`), Crisp Glass Borders (`#262b36`).
-  - True Neon Emerald (`#00F59B` / `#10B981`) with glowing gradients, matching the brand logo.
-  - Semantic colors: Win (`#00F59B`), Loss (`#FF4D4D`), Pending (`#F59E0B`), Urgent (`#F43F5E`).
+- **Color Palette (Matte Obsidian & Natural Emerald)**:
+  - Deep Obsidian (`#09090b` / `#0c0d11`), Zinc Surfaces (`#121318` / `#171820`), Subtle Zinc Borders (`#1f2128` / `#272a33`).
+  - Natural Refined Emerald (`#10b981` / `#059669`) with zero neon glare or glowing shadows.
+  - Semantic colors: Win (`#10b981`), Loss (`#ef4444`), Pending (`#f59e0b`), Urgent (`#ef4444`).
+  - Typography: Geist Sans & Geist Mono / IBM Plex Sans — modern, crisp, human-engineered developer/designer font.
 - **Open-Source Influences**: Tremor Raw / shadcn / Polymarket / Linear — sleek metrics cards, interactive filter chips, probability badges, Kelly sizing, live trade memos.
 - **Zero "Disabled" AI Slop**: Remove all "Action disabled in preview" banners. Instead, provide rich interactive state in-memory:
   - Role switcher (Luis - Co-Owner vs. Jordan - Senior Analyst)
