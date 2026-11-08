@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.preview-evidence/
+.sites-runtime/
+.sites-checkout/
+*.tsbuildinfo
+*.tar
+*.log
+.env
+.env.*
+!.env.example
+PROJECT_MASTER_SPEC.md

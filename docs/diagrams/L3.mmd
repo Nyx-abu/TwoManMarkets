@@ -1,0 +1,13 @@
+flowchart TB
+    Input[Owner command] --> Validate[Validate and authorize]
+    subgraph Transaction[Database transaction]
+        Begin[Begin transaction] --> Replay[Claim replay key]
+        Replay --> Check[Check state and version]
+        Check --> Write[Write records and intent]
+        Write --> Commit[Commit]
+    end
+    Validate --> Begin
+    Check --> Conflict[Rollback and conflict]
+    Write --> Failed[Rollback on failure]
+    Commit --> Success[Return result]
+    Commit --> Dispatch[Dispatch after commit]

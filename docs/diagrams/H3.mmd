@@ -1,0 +1,13 @@
+flowchart TB
+    Input[Owner operation] --> Validate[Authorize and validate]
+    subgraph Transaction[Single database transaction]
+        Record[Write business record]
+        Audit[Append audit event]
+        Intent[Write notification intent]
+        Record --> Audit --> Intent
+    end
+    Validate --> Record
+    Intent --> Commit[Commit]
+    Commit --> Dispatcher[Dispatch in-app alert]
+    Dispatcher --> Inbox[Recipient inbox]
+    Dispatcher --> Retry[Bounded retry]

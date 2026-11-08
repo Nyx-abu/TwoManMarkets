@@ -1,0 +1,6 @@
+flowchart LR
+    Handler[HTTP handler] --> Service[Application service]
+    Service --> Rules[Domain rules]
+    Service --> Port[Repository port]
+    Adapter[Prisma adapter] --> Port
+    Adapter --> Database[PostgreSQL]
