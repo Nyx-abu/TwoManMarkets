@@ -10,3 +10,5 @@ dist/
 .env.*
 !.env.example
 PROJECT_MASTER_SPEC.md
+
+.vercel

@@ -1,38 +1,61 @@
-# TwoManMarkets Workspace Preview
+# TwoManMarkets — Syndicate Operations & Research Terminal
 
-Static shell for the internal prediction-market research and team operations dashboard. Fictional sample data only; no backend or trading functionality.
+A modern, institutional-grade internal operations terminal and prediction market research hub built for **TwoManMarkets**.
 
-## Run
+![TwoManMarkets Header](public/logo-full.png)
+
+## Overview
+
+TwoManMarkets operates an investment syndicate researching prediction markets (Polymarket, Kalshi) and sports markets (Pinnacle, DraftKings, Betfair). This centralized platform unites:
+
+1. **Prediction Market Research Portal**: Staff analysts submit structured theses with market odds, implied probabilities, calculated edge, and proposed stakes.
+2. **Owner Capital Allocation Engine**: The two Co-Owners (Luis & Partner) review submitted theses, size positions, and allocate capital with one click.
+3. **Settlement Ledger & Analytics**: Tracks outcomes (Won/Lost/Push), computes firm-wide Net P&L and ROI, and ranks analysts on a monthly performance leaderboard.
+4. **Task Operations Board**: Linear-grade 3-column Kanban board for sprint deliverables and research quotas.
+5. **Syndicate Chat & Announcements**: Dedicated channels (`#announcements`, `#sports-picks`, `#macro-theses`, `#general`) and 1-on-1 direct messages.
+6. **Executive System Architecture**: Embedded system blueprint and security documentation for leadership review.
+
+---
+
+## Tech Stack
+
+- **Framework**: React 19 / TypeScript / Vite (Zero-dependency ultra-fast client bundle)
+- **Design System**: Obsidian & High-Voltage Neon Emerald (`#00f59b`), custom responsive CSS matching the official brand logo.
+- **Icons**: Lucide React
+- **Hosting**: Vercel Edge / Global CDN
+
+---
+
+## Local Development
 
 ```powershell
-npm ci
+# Install dependencies
+npm install
+
+# Start local dev server (available at http://localhost:5173)
 npm run dev
-```
 
-## Verify and build
-
-```powershell
-npm run typecheck
+# Typecheck and create production build
 npm run build
 ```
 
-Static output is `dist/`; it contains the UI and bundled brand asset. Do not serve the project root as a public file directory.
+---
 
-## Documentation
+## Deployment to Vercel
 
-- [Preview scope](docs/PREVIEW_SCOPE.md)
-- [High-Level Design](docs/HIGH_LEVEL_DESIGN.md)
-- [Low-Level Design](docs/LOW_LEVEL_DESIGN.md)
-- [Confluence handoff](docs/CONFLUENCE_IMPORT.md)
-- [Production architecture decision](docs/adr/001-production-modular-monolith.md)
-- [Internal master specification](PROJECT_MASTER_SPEC.md) — retained locally and excluded from source publication.
+This repository is pre-configured for instant deployment on Vercel:
 
-The future production design is proposed; the current application provides inspectable screens only.
+1. Push this repository to GitHub or GitLab.
+2. In the [Vercel Dashboard](https://vercel.com), click **Add New Project** and import the repository.
+3. Vercel automatically detects the Vite framework settings:
+   - **Framework Preset**: Vite
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. Click **Deploy**. Your live terminal preview will be available instantly on a custom Vercel domain (e.g. `twomanmarkets.vercel.app`).
 
-## Diagram sources
+---
 
-```powershell
-node scripts/export-architecture-diagrams.mjs
-```
+## Client Architecture & Deliverables
 
-Exports seven editable Mermaid sources under `docs/diagrams/`. Use the native Confluence Mermaid macro with default lavender styling and verify rendering in myspace before sharing.
+- [Executive System Blueprint](docs/EXECUTIVE_ARCHITECTURE_PROPOSAL.md) — Plain-English architectural proposal ready to send to Luis.
+- [Project Master Specification](PROJECT_MASTER_SPEC.md) — Technical operating specification and data schema.
