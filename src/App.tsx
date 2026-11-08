@@ -1299,11 +1299,10 @@ export default function App() {
                       <tr>
                         <th>Market Title</th>
                         <th>Category</th>
-                        <th>Exchange / Book</th>
+                        <th>Book</th>
                         <th>Market Odds</th>
-                        <th>Internal Edge</th>
-                        <th>Proposed Stake</th>
-                        <th>Actual Invested</th>
+                        <th>Edge</th>
+                        <th>Stake / Actual</th>
                         <th>Author</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -1333,11 +1332,13 @@ export default function App() {
                                 <TrendingUp size={12} /> {item.edge}
                               </span>
                             </td>
-                            <td style={{ fontFamily: 'var(--font-mono)' }}>
-                              ${item.suggestedStake.toLocaleString()}
-                            </td>
-                            <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: item.actualInvested > 0 ? 'var(--emerald)' : 'var(--text-muted)' }}>
-                              {item.actualInvested > 0 ? `$${item.actualInvested.toLocaleString()}` : '—'}
+                            <td>
+                              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                                ${item.suggestedStake.toLocaleString()}
+                              </span>
+                              <span style={{ display: 'block', fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: item.actualInvested > 0 ? 'var(--emerald)' : 'var(--text-muted)' }}>
+                                {item.actualInvested > 0 ? `Act: $${item.actualInvested.toLocaleString()}` : 'Act: —'}
+                              </span>
                             </td>
                             <td>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

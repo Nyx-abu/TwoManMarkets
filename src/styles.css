@@ -1090,13 +1090,13 @@ a {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 13px;
+  font-size: 12px;
   text-align: left;
 }
 
 .data-table th {
-  padding: 12px 14px;
-  font-size: 11px;
+  padding: 8px 8px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1107,7 +1107,7 @@ a {
 }
 
 .data-table td {
-  padding: 14px 14px;
+  padding: 9px 8px;
   border-bottom: 1px solid var(--border-subtle);
   color: var(--text-secondary);
   vertical-align: middle;
@@ -1125,6 +1125,10 @@ a {
   font-weight: 600;
   color: var(--text-primary);
   display: block;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .table-sub-info {
@@ -2056,16 +2060,84 @@ a {
   color: var(--emerald);
 }
 
-/* Mobile Channel Scroller for Chat */
+/* Filter Toolbar & Tab Buttons */
+.filter-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.filter-secondary-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter-tab-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.filter-tab-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+.filter-tab-btn.active {
+  background: var(--bg-card-subtle);
+  color: var(--emerald);
+  border-color: var(--emerald-border);
+  font-weight: 600;
+}
+
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  min-width: 180px;
+}
+
+.search-input-wrap input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 12px;
+  width: 100%;
+}
+
+/* Mobile Channel Quick Switcher for Chat */
 .mobile-channel-scroller {
   display: none;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
   padding: 10px 14px;
   background: var(--bg-card-subtle);
   border-bottom: 1px solid var(--border-subtle);
-  overflow-x: auto;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
 }
 
 .mobile-channel-pill {

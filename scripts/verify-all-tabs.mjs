@@ -83,9 +83,9 @@ try {
     'System Architecture'
   ];
 
-  for (const width of [360, 768]) {
+  for (const width of [360, 390, 414, 768, 1280]) {
     console.log(`\n=== TESTING VIEWPORT WIDTH: ${width}px ===`);
-    await command('Emulation.setDeviceMetricsOverride', { width, height: 800, deviceScaleFactor: 1, mobile: width < 600 });
+    await command('Emulation.setDeviceMetricsOverride', { width, height: 800, deviceScaleFactor: 1, mobile: width < 900 });
     await new Promise(resolve => setTimeout(resolve, 300));
 
     for (const tabName of tabs) {
