@@ -39,10 +39,7 @@ import {
   ShieldAlert
 } from 'lucide-react';
 
-// ============================================================================
-// Types & Domain Models
-// ============================================================================
-
+// data types & models
 export type Role = 'OWNER' | 'STAFF';
 
 export interface StaffPermissions {
@@ -151,10 +148,7 @@ export interface DeskAnnouncement {
   priority: 'Normal' | 'Urgent';
 }
 
-// ============================================================================
-// Initial Mock Data
-// ============================================================================
-
+// mock data for testing ui
 const INITIAL_STAFF: StaffMember[] = [
   {
     id: 'u-1',
@@ -796,10 +790,7 @@ const INITIAL_ANNOUNCEMENT: DeskAnnouncement = {
   priority: 'Normal'
 };
 
-// ============================================================================
-// Main Application Component
-// ============================================================================
-
+// main app component
 export default function App() {
   // Navigation & User State
   const [activeTab, setActiveTab] = useState<TabType>('overview');
@@ -1314,9 +1305,7 @@ export default function App() {
 
   return (
     <div className="app-container">
-      {/* ==================================================================
-          1. Sidebar Navigation
-          ================================================================== */}
+      {/* sidebar navigation */}
       {mobileMenuOpen && (
         <div
           className="sidebar-backdrop"
@@ -1445,9 +1434,7 @@ export default function App() {
         </div>
       </aside>
 
-      {/* ==================================================================
-          2. Main Content Wrapper
-          ================================================================== */}
+      {/* main content */}
       <div className="main-wrapper">
         {/* Top Sticky Header */}
         <header className="topbar">
@@ -1596,9 +1583,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* ==============================================================
-              PAGE 1: DASHBOARD (OVERVIEW)
-              ============================================================== */}
+          {/* overview tab */}
           {activeTab === 'overview' && (
             <div>
               <div className="page-header">
@@ -2064,9 +2049,7 @@ export default function App() {
             </div>
           )}
 
-          {/* ==============================================================
-              PAGE 2: RESEARCH & THESES PIPELINE
-              ============================================================== */}
+          {/* research tab */}
           {activeTab === 'research' && (
             <div>
               <div className="page-header">
@@ -2260,9 +2243,7 @@ export default function App() {
             </div>
           )}
 
-          {/* ==============================================================
-              PAGE 3: TASK MANAGEMENT BOARD
-              ============================================================== */}
+          {/* tasks kanban */}
           {activeTab === 'tasks' && (
             <div>
               <div className="page-header">
@@ -2451,9 +2432,7 @@ export default function App() {
             </div>
           )}
 
-          {/* ==============================================================
-              PAGE 4: TEAM CHAT & MESSAGING
-              ============================================================== */}
+          {/* team chat */}
           {activeTab === 'chat' && (
             <div>
               <div className="page-header">
@@ -2598,9 +2577,7 @@ export default function App() {
             </div>
           )}
 
-          {/* ==============================================================
-              PAGE 5: ANALYTICS & REPORTS
-              ============================================================== */}
+          {/* analytics tab */}
           {activeTab === 'analytics' && (
             <div>
               <div className="page-header">
@@ -2975,9 +2952,7 @@ export default function App() {
             </div>
           )}
 
-          {/* ==============================================================
-              PAGE 6: STAFF MANAGEMENT & DIRECTORY
-              ============================================================== */}
+          {/* staff directory */}
           {activeTab === 'team' && (
             <div>
               <div className="page-header">
@@ -3179,9 +3154,7 @@ export default function App() {
             </div>
           )}
 
-          {/* ==============================================================
-              PAGE 7: ADMIN SETTINGS & GOVERNANCE
-              ============================================================== */}
+          {/* admin panel */}
           {activeTab === 'admin' && (
             currentUser.role === 'OWNER' ? (
               <div>
@@ -3556,9 +3529,7 @@ export default function App() {
         </main>
       </div>
 
-      {/* ==================================================================
-          3. Modals & Interactive Popups
-          ================================================================== */}
+      {/* modals & dialogs */}
 
       {/* MODAL 1: Submit New Research Thesis */}
       {newSubmissionModalOpen && (
