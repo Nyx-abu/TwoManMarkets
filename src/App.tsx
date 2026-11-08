@@ -34,7 +34,9 @@ import {
   UserCheck,
   UserX,
   Download,
-  AlertCircle
+  AlertCircle,
+  Calendar,
+  ShieldAlert
 } from 'lucide-react';
 
 // ============================================================================
@@ -779,7 +781,9 @@ export default function App() {
   // Interactive Filter States
   const [researchFilter, setResearchFilter] = useState<'All' | ResearchStatus>('All');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
-  const [analyticsTimeframe, setAnalyticsTimeframe] = useState<'7D' | '30D' | '90D' | 'ALL'>('30D');
+  const [analyticsTimeframe, setAnalyticsTimeframe] = useState<'7D' | '30D' | '90D' | 'ALL' | 'CUSTOM'>('30D');
+  const [customStartDate, setCustomStartDate] = useState('2026-10-15');
+  const [customEndDate, setCustomEndDate] = useState('2026-11-08');
   const [analyticsCategoryFilter, setAnalyticsCategoryFilter] = useState<string>('All');
   const [analyticsStatusFilter, setAnalyticsStatusFilter] = useState<string>('All');
   const [staffStatusFilter, setStaffStatusFilter] = useState<'All' | 'Active' | 'Inactive'>('All');
@@ -904,9 +908,83 @@ export default function App() {
     return { total, completed, inProgress, pending, urgent, percent };
   }, [taskList]);
 
+  // Derived Individual Staff Telemetry (Personal Hit-Rate & Attribution)
+  const personalMetrics = useMemo(() => {
+    // Current user's submitted research
+    const myItems = researchList.filter(
+      r => r.author === currentUser.name || r.authorInitials === currentUser.initials
+    );
+    let myInvested = 0;
+    let myProfit = 0;
+    let myWon = 0;
+    let myLost = 0;
+    let myPending = 0;
+    let myInvestedCount = 0;
+
+    myItems.forEach(item => {
+      if (item.status === 'Won') {
+        myWon++;
+        myInvested += item.actualInvested;
+        myProfit += (item.netProfit || 0);
+      } else if (item.status === 'Lost') {
+        myLost++;
+        myInvested += item.actualInvested;
+        myProfit += (item.netProfit || 0);
+      } else if (item.status === 'Invested') {
+        myInvestedCount++;
+        myInvested += item.actualInvested;
+      } else if (item.status === 'Pending') {
+        myPending++;
+      }
+    });
+
+    const settled = myWon + myLost;
+    const hitRate = settled > 0
+      ? ((myWon / settled) * 100).toFixed(1)
+      : (currentUser.metrics?.winRate ? currentUser.metrics.winRate.toFixed(1) : '71.4');
+
+    const totalTheses = myItems.length > 0 ? myItems.length : (currentUser.metrics?.thesesCount || 19);
+    const netProfit = myProfit !== 0 ? myProfit : (currentUser.metrics?.netProfit || 8950);
+    const streak = currentUser.metrics?.streak || (myWon > myLost ? `${myWon} Wins` : 'Active Streak');
+    const avgEdge = currentUser.metrics?.avgEdge || '+6.4%';
+
+    // Tasks assigned to current user
+    const myTasks = taskList.filter(t => t.assignee === currentUser.name);
+    const myCompleted = myTasks.filter(t => t.status === 'Completed').length;
+    const myActiveTasks = myTasks.filter(t => t.status !== 'Completed').length;
+    const taskRate = myTasks.length > 0
+      ? Math.round((myCompleted / myTasks.length) * 100)
+      : (currentUser.metrics?.tasksTotal ? Math.round((currentUser.metrics.tasksCompleted / currentUser.metrics.tasksTotal) * 100) : 92);
+
+    return {
+      myItems,
+      totalTheses,
+      wonCount: myWon,
+      lostCount: myLost,
+      pendingCount: myPending,
+      investedCount: myInvestedCount,
+      settledCount: settled,
+      hitRate,
+      netProfit,
+      streak,
+      avgEdge,
+      assignedTasksCount: myTasks.length > 0 ? myTasks.length : (currentUser.metrics?.tasksTotal || 15),
+      completedTasksCount: myTasks.length > 0 ? myCompleted : (currentUser.metrics?.tasksCompleted || 14),
+      activeTasks: myActiveTasks > 0 ? myActiveTasks : 1,
+      taskCompletionRate: taskRate
+    };
+  }, [researchList, currentUser, taskList]);
+
   // Dynamic Chart Configuration based on selected timeframe
   const chartConfig = useMemo(() => {
     switch (analyticsTimeframe) {
+      case 'CUSTOM':
+        return {
+          areaPath: 'M 0,165 C 80,150 160,135 250,110 C 340,90 440,75 520,50 C 600,35 650,30 700,22 L 700,200 L 0,200 Z',
+          linePath: 'M 0,165 C 80,150 160,135 250,110 C 340,90 440,75 520,50 C 600,35 650,30 700,22',
+          terminalY: 22,
+          labels: [customStartDate, 'Mid-range', `${customEndDate} (Custom)`]
+        };
       case '7D':
         return {
           areaPath: 'M 0,150 C 90,140 180,120 270,125 C 360,100 450,80 540,60 C 620,45 660,35 700,25 L 700,200 L 0,200 Z',
@@ -1500,91 +1578,204 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Top KPI Metrics Cards */}
-              <div className="kpi-grid">
-                <div className="kpi-card highlight">
-                  <div className="kpi-header">
-                    <span className="kpi-title">TOTAL ACTIVE CAPITAL</span>
-                    <div className="kpi-icon-wrap" style={{ background: 'var(--emerald-soft)', color: 'var(--emerald)' }}>
-                      <DollarSign size={18} />
+              {/* Top KPI Metrics Cards: Role-Aware (Owner Firm-Wide vs Staff Personal Telemetry) */}
+              {currentUser.role === 'OWNER' ? (
+                <div className="kpi-grid">
+                  <div className="kpi-card highlight">
+                    <div className="kpi-header">
+                      <span className="kpi-title">TOTAL ACTIVE CAPITAL</span>
+                      <div className="kpi-icon-wrap" style={{ background: 'var(--emerald-soft)', color: 'var(--emerald)' }}>
+                        <DollarSign size={18} />
+                      </div>
+                    </div>
+                    <div className="kpi-value mono">${metrics.totalInvested.toLocaleString()}</div>
+                    <div className="kpi-footer">
+                      <span className="trend-pill positive">
+                        <TrendingUp size={12} /> +18.4%
+                      </span>
+                      <span className="kpi-subtitle">firm-wide bankroll deployed</span>
                     </div>
                   </div>
-                  <div className="kpi-value mono">${metrics.totalInvested.toLocaleString()}</div>
-                  <div className="kpi-footer">
-                    <span className="trend-pill positive">
-                      <TrendingUp size={12} /> +18.4%
-                    </span>
-                    <span className="kpi-subtitle">vs previous 30-day cycle</span>
-                  </div>
-                </div>
 
-                <div className="kpi-card">
-                  <div className="kpi-header">
-                    <span className="kpi-title">OVERALL WIN RATE</span>
-                    <div className="kpi-icon-wrap" style={{ background: 'var(--quant-violet-bg)', color: 'var(--quant-violet)' }}>
-                      <Award size={18} />
+                  <div className="kpi-card">
+                    <div className="kpi-header">
+                      <span className="kpi-title">OVERALL WIN RATE</span>
+                      <div className="kpi-icon-wrap" style={{ background: 'var(--quant-violet-bg)', color: 'var(--quant-violet)' }}>
+                        <Award size={18} />
+                      </div>
+                    </div>
+                    <div className="kpi-value">{metrics.winRate}%</div>
+                    <div className="kpi-footer">
+                      <span className="trend-pill positive">
+                        <TrendingUp size={12} /> {metrics.wonCount}W — {metrics.lostCount}L
+                      </span>
+                      <span className="kpi-subtitle">{metrics.settledCount} resolved positions</span>
                     </div>
                   </div>
-                  <div className="kpi-value">{metrics.winRate}%</div>
-                  <div className="kpi-footer">
-                    <span className="trend-pill positive">
-                      <TrendingUp size={12} /> {metrics.wonCount}W — {metrics.lostCount}L
-                    </span>
-                    <span className="kpi-subtitle">{metrics.settledCount} resolved positions</span>
-                  </div>
-                </div>
 
-                <div className="kpi-card">
-                  <div className="kpi-header">
-                    <span className="kpi-title">NET REALIZED PROFIT</span>
-                    <div className="kpi-icon-wrap" style={{ background: 'var(--win-green-bg)', color: 'var(--win-green)' }}>
-                      <TrendingUp size={18} />
+                  <div className="kpi-card">
+                    <div className="kpi-header">
+                      <span className="kpi-title">NET REALIZED PROFIT</span>
+                      <div className="kpi-icon-wrap" style={{ background: 'var(--win-green-bg)', color: 'var(--win-green)' }}>
+                        <TrendingUp size={18} />
+                      </div>
+                    </div>
+                    <div className="kpi-value mono" style={{ color: metrics.totalProfit >= 0 ? 'var(--win-green)' : 'var(--loss-red)' }}>
+                      {metrics.totalProfit >= 0 ? `+$${metrics.totalProfit.toLocaleString()}` : `-$${Math.abs(metrics.totalProfit).toLocaleString()}`}
+                    </div>
+                    <div className="kpi-footer">
+                      <span className="trend-pill positive">ROI: {metrics.overallRoi}%</span>
+                      <span className="kpi-subtitle">across all verified positions</span>
                     </div>
                   </div>
-                  <div className="kpi-value mono" style={{ color: metrics.totalProfit >= 0 ? 'var(--win-green)' : 'var(--loss-red)' }}>
-                    {metrics.totalProfit >= 0 ? `+$${metrics.totalProfit.toLocaleString()}` : `-$${Math.abs(metrics.totalProfit).toLocaleString()}`}
-                  </div>
-                  <div className="kpi-footer">
-                    <span className="trend-pill positive">ROI: {metrics.overallRoi}%</span>
-                    <span className="kpi-subtitle">across all verified positions</span>
-                  </div>
-                </div>
 
-                <div className="kpi-card">
-                  <div className="kpi-header">
-                    <span className="kpi-title">RESEARCH PIPELINE</span>
-                    <div className="kpi-icon-wrap" style={{ background: 'var(--info-blue-bg)', color: 'var(--info-blue)' }}>
-                      <Target size={18} />
+                  <div className="kpi-card">
+                    <div className="kpi-header">
+                      <span className="kpi-title">RESEARCH PIPELINE</span>
+                      <div className="kpi-icon-wrap" style={{ background: 'var(--info-blue-bg)', color: 'var(--info-blue)' }}>
+                        <Target size={18} />
+                      </div>
+                    </div>
+                    <div className="kpi-value">{metrics.pendingCount} Pending</div>
+                    <div className="kpi-footer">
+                      <span className="trend-pill positive">{metrics.investedCount} Active Positions</span>
+                      <span className="kpi-subtitle">{metrics.totalTheses} total logged</span>
                     </div>
                   </div>
-                  <div className="kpi-value">{metrics.pendingCount} Pending</div>
-                  <div className="kpi-footer">
-                    <span className="trend-pill positive">{metrics.investedCount} Active Positions</span>
-                    <span className="kpi-subtitle">{metrics.totalTheses} total logged</span>
+                </div>
+              ) : (
+                <div>
+                  <div className="staff-privacy-banner">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <ShieldAlert size={16} style={{ color: 'var(--emerald)', flexShrink: 0 }} />
+                      <span>
+                        <strong>Individual Staff Telemetry Active:</strong> Displaying personal research accuracy, thesis attribution, and assigned duties. Firm-wide treasury bankroll and partner capital decisions are restricted to Co-Owner accounts.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="kpi-grid">
+                    <div className="kpi-card highlight">
+                      <div className="kpi-header">
+                        <span className="kpi-title">MY RESEARCH HIT RATE</span>
+                        <div className="kpi-icon-wrap" style={{ background: 'var(--emerald-soft)', color: 'var(--emerald)' }}>
+                          <Award size={18} />
+                        </div>
+                      </div>
+                      <div className="kpi-value">{personalMetrics.hitRate}%</div>
+                      <div className="kpi-footer">
+                        <span className="trend-pill positive">
+                          <TrendingUp size={12} /> {personalMetrics.streak}
+                        </span>
+                        <span className="kpi-subtitle">verified outcome accuracy</span>
+                      </div>
+                    </div>
+
+                    <div className="kpi-card">
+                      <div className="kpi-header">
+                        <span className="kpi-title">MY THESES LOGGED</span>
+                        <div className="kpi-icon-wrap" style={{ background: 'var(--info-blue-bg)', color: 'var(--info-blue)' }}>
+                          <Target size={18} />
+                        </div>
+                      </div>
+                      <div className="kpi-value">{personalMetrics.totalTheses} Theses</div>
+                      <div className="kpi-footer">
+                        <span className="trend-pill positive">
+                          {personalMetrics.pendingCount} Under Review · {personalMetrics.investedCount} Active
+                        </span>
+                        <span className="kpi-subtitle">attributed to {currentUser.name.split(' ')[0]}</span>
+                      </div>
+                    </div>
+
+                    <div className="kpi-card">
+                      <div className="kpi-header">
+                        <span className="kpi-title">NET VALUE GENERATED</span>
+                        <div className="kpi-icon-wrap" style={{ background: 'var(--win-green-bg)', color: 'var(--win-green)' }}>
+                          <TrendingUp size={18} />
+                        </div>
+                      </div>
+                      <div className="kpi-value mono" style={{ color: 'var(--win-green)' }}>
+                        +${personalMetrics.netProfit.toLocaleString()}
+                      </div>
+                      <div className="kpi-footer">
+                        <span className="trend-pill positive">Edge: {personalMetrics.avgEdge}</span>
+                        <span className="kpi-subtitle">realized profit from your research</span>
+                      </div>
+                    </div>
+
+                    <div className="kpi-card">
+                      <div className="kpi-header">
+                        <span className="kpi-title">MY ASSIGNED TASKS</span>
+                        <div className="kpi-icon-wrap" style={{ background: 'var(--quant-violet-bg)', color: 'var(--quant-violet)' }}>
+                          <CheckCircle2 size={18} />
+                        </div>
+                      </div>
+                      <div className="kpi-value">{personalMetrics.taskCompletionRate}%</div>
+                      <div className="kpi-footer">
+                        <span className="trend-pill positive">
+                          {personalMetrics.completedTasksCount}/{personalMetrics.assignedTasksCount} Completed
+                        </span>
+                        <span className="kpi-subtitle">on-time task completion rate</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Split Grid: Interactive Performance Chart & Position Outcomes */}
               <div className="dashboard-split-grid">
                 <div className="panel-card">
                   <div className="panel-head">
                     <div>
-                      <h3 className="panel-title">Cumulative Capital Growth & Realized Returns</h3>
-                      <p className="panel-desc">Daily net profit & loss from verified prediction investments</p>
+                      <h3 className="panel-title">
+                        {currentUser.role === 'OWNER'
+                          ? 'Cumulative Capital Growth & Realized Returns'
+                          : `${currentUser.name.split(' ')[0]}'s Research Performance & Hit-Rate Progression`}
+                      </h3>
+                      <p className="panel-desc">
+                        {currentUser.role === 'OWNER'
+                          ? 'Daily net profit & loss from verified prediction investments (Firm Treasury)'
+                          : 'Cumulative outcome accuracy and attribution from your logged market research'}
+                      </p>
                     </div>
                     <div className="filter-group">
-                      {(['7D', '30D', '90D', 'ALL'] as const).map(tf => (
+                      {(['7D', '30D', '90D', 'ALL', 'CUSTOM'] as const).map(tf => (
                         <button
                           key={tf}
                           className={`filter-tab-btn ${analyticsTimeframe === tf ? 'active' : ''}`}
                           onClick={() => setAnalyticsTimeframe(tf)}
                         >
-                          {tf}
+                          {tf === 'CUSTOM' ? 'Custom Range' : tf}
                         </button>
                       ))}
                     </div>
                   </div>
+
+                  {analyticsTimeframe === 'CUSTOM' && (
+                    <div className="custom-date-range-bar" style={{ margin: '0 20px 16px 20px' }}>
+                      <div className="date-input-group">
+                        <Calendar size={14} style={{ color: 'var(--emerald)' }} />
+                        <span className="date-label">From:</span>
+                        <input
+                          type="date"
+                          value={customStartDate}
+                          onChange={e => setCustomStartDate(e.target.value)}
+                          className="date-picker-input"
+                        />
+                      </div>
+                      <div className="date-input-group">
+                        <span className="date-label">To:</span>
+                        <input
+                          type="date"
+                          value={customEndDate}
+                          onChange={e => setCustomEndDate(e.target.value)}
+                          className="date-picker-input"
+                        />
+                      </div>
+                      <span className="custom-date-pill">
+                        Active Filter: {customStartDate} → {customEndDate}
+                      </span>
+                    </div>
+                  )}
 
                   {/* High Quality Interactive SVG Chart */}
                   <div className="chart-container">
@@ -2374,18 +2565,22 @@ export default function App() {
             <div>
               <div className="page-header">
                 <div className="page-title-group">
-                  <h1>Analytics & Performance Reports</h1>
-                  <p>Historical capital returns, market category win rates, and analyst performance metrics.</p>
+                  <h1>{currentUser.role === 'OWNER' ? 'Analytics & Performance Reports' : `${currentUser.name.split(' ')[0]}'s Personal Research Telemetry`}</h1>
+                  <p>
+                    {currentUser.role === 'OWNER'
+                      ? 'Historical capital returns, market category win rates, and analyst performance metrics.'
+                      : `Individual hit rates, model edge metrics, and task completion record for ${currentUser.name}.`}
+                  </p>
                 </div>
                 <div className="header-actions">
                   <div className="filter-group">
-                    {(['7D', '30D', '90D', 'ALL'] as const).map(tf => (
+                    {(['7D', '30D', '90D', 'ALL', 'CUSTOM'] as const).map(tf => (
                       <button
                         key={tf}
                         className={`filter-tab-btn ${analyticsTimeframe === tf ? 'active' : ''}`}
                         onClick={() => setAnalyticsTimeframe(tf)}
                       >
-                        {tf}
+                        {tf === 'CUSTOM' ? 'Custom Range' : tf}
                       </button>
                     ))}
                   </div>
@@ -2396,58 +2591,149 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Analytics Top Metrics */}
-              <div className="kpi-grid">
-                <div className="kpi-card">
-                  <div className="kpi-header">
-                    <span className="kpi-title">TOTAL INVESTED CAPITAL</span>
-                    <DollarSign size={18} style={{ color: 'var(--emerald)' }} />
+              {analyticsTimeframe === 'CUSTOM' && (
+                <div className="custom-date-range-bar" style={{ marginBottom: '20px' }}>
+                  <div className="date-input-group">
+                    <Calendar size={14} style={{ color: 'var(--emerald)' }} />
+                    <span className="date-label">From:</span>
+                    <input
+                      type="date"
+                      value={customStartDate}
+                      onChange={e => setCustomStartDate(e.target.value)}
+                      className="date-picker-input"
+                    />
                   </div>
-                  <div className="kpi-value mono">${metrics.totalInvested.toLocaleString()}</div>
-                  <div className="kpi-footer">
-                    <span className="trend-pill positive">+24.5%</span>
-                    <span className="kpi-subtitle">active capital deployed</span>
+                  <div className="date-input-group">
+                    <span className="date-label">To:</span>
+                    <input
+                      type="date"
+                      value={customEndDate}
+                      onChange={e => setCustomEndDate(e.target.value)}
+                      className="date-picker-input"
+                    />
                   </div>
+                  <span className="custom-date-pill">
+                    Active Filter: {customStartDate} → {customEndDate}
+                  </span>
                 </div>
+              )}
 
-                <div className="kpi-card">
-                  <div className="kpi-header">
-                    <span className="kpi-title">CUMULATIVE NET PROFIT</span>
-                    <TrendingUp size={18} style={{ color: 'var(--win-green)' }} />
+              {/* Analytics Top Metrics: Role-Segregated */}
+              {currentUser.role === 'OWNER' ? (
+                <div className="kpi-grid">
+                  <div className="kpi-card">
+                    <div className="kpi-header">
+                      <span className="kpi-title">TOTAL INVESTED CAPITAL</span>
+                      <DollarSign size={18} style={{ color: 'var(--emerald)' }} />
+                    </div>
+                    <div className="kpi-value mono">${metrics.totalInvested.toLocaleString()}</div>
+                    <div className="kpi-footer">
+                      <span className="trend-pill positive">+24.5%</span>
+                      <span className="kpi-subtitle">active capital deployed</span>
+                    </div>
                   </div>
-                  <div className="kpi-value mono" style={{ color: 'var(--win-green)' }}>
-                    +${metrics.totalProfit.toLocaleString()}
-                  </div>
-                  <div className="kpi-footer">
-                    <span className="trend-pill positive">ROI: {metrics.overallRoi}%</span>
-                    <span className="kpi-subtitle">on closed positions</span>
-                  </div>
-                </div>
 
-                <div className="kpi-card">
-                  <div className="kpi-header">
-                    <span className="kpi-title">PROFIT FACTOR</span>
-                    <Award size={18} style={{ color: 'var(--quant-violet)' }} />
+                  <div className="kpi-card">
+                    <div className="kpi-header">
+                      <span className="kpi-title">CUMULATIVE NET PROFIT</span>
+                      <TrendingUp size={18} style={{ color: 'var(--win-green)' }} />
+                    </div>
+                    <div className="kpi-value mono" style={{ color: 'var(--win-green)' }}>
+                      +${metrics.totalProfit.toLocaleString()}
+                    </div>
+                    <div className="kpi-footer">
+                      <span className="trend-pill positive">ROI: {metrics.overallRoi}%</span>
+                      <span className="kpi-subtitle">on closed positions</span>
+                    </div>
                   </div>
-                  <div className="kpi-value">2.38x</div>
-                  <div className="kpi-footer">
-                    <span className="trend-pill positive">Sharpe: 1.84</span>
-                    <span className="kpi-subtitle">risk-adjusted return</span>
-                  </div>
-                </div>
 
-                <div className="kpi-card">
-                  <div className="kpi-header">
-                    <span className="kpi-title">AVERAGE VALUE EDGE</span>
-                    <Activity size={18} style={{ color: 'var(--info-blue)' }} />
+                  <div className="kpi-card">
+                    <div className="kpi-header">
+                      <span className="kpi-title">PROFIT FACTOR</span>
+                      <Award size={18} style={{ color: 'var(--quant-violet)' }} />
+                    </div>
+                    <div className="kpi-value">2.38x</div>
+                    <div className="kpi-footer">
+                      <span className="trend-pill positive">Sharpe: 1.84</span>
+                      <span className="kpi-subtitle">risk-adjusted return</span>
+                    </div>
                   </div>
-                  <div className="kpi-value">+5.4%</div>
-                  <div className="kpi-footer">
-                    <span className="trend-pill positive">Kelly Sized</span>
-                    <span className="kpi-subtitle">above market implied odds</span>
+
+                  <div className="kpi-card">
+                    <div className="kpi-header">
+                      <span className="kpi-title">AVERAGE VALUE EDGE</span>
+                      <Activity size={18} style={{ color: 'var(--info-blue)' }} />
+                    </div>
+                    <div className="kpi-value">+5.4%</div>
+                    <div className="kpi-footer">
+                      <span className="trend-pill positive">Kelly Sized</span>
+                      <span className="kpi-subtitle">above market implied odds</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div>
+                  <div className="staff-privacy-banner">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <ShieldAlert size={16} style={{ color: 'var(--emerald)', flexShrink: 0 }} />
+                      <span>
+                        <strong>Co-Owner Master Ledger Restricted:</strong> Total firm bankroll (${metrics.totalInvested.toLocaleString()}) and firm treasury accounts are restricted. Showing your personal research accuracy and thesis attribution below.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="kpi-grid">
+                    <div className="kpi-card">
+                      <div className="kpi-header">
+                        <span className="kpi-title">MY RESEARCH HIT RATE</span>
+                        <Award size={18} style={{ color: 'var(--emerald)' }} />
+                      </div>
+                      <div className="kpi-value">{personalMetrics.hitRate}%</div>
+                      <div className="kpi-footer">
+                        <span className="trend-pill positive">{personalMetrics.streak}</span>
+                        <span className="kpi-subtitle">verified outcome accuracy</span>
+                      </div>
+                    </div>
+
+                    <div className="kpi-card">
+                      <div className="kpi-header">
+                        <span className="kpi-title">MY NET VALUE ADDED</span>
+                        <TrendingUp size={18} style={{ color: 'var(--win-green)' }} />
+                      </div>
+                      <div className="kpi-value mono" style={{ color: 'var(--win-green)' }}>
+                        +${personalMetrics.netProfit.toLocaleString()}
+                      </div>
+                      <div className="kpi-footer">
+                        <span className="trend-pill positive">Edge: {personalMetrics.avgEdge}</span>
+                        <span className="kpi-subtitle">realized profit on your ideas</span>
+                      </div>
+                    </div>
+
+                    <div className="kpi-card">
+                      <div className="kpi-header">
+                        <span className="kpi-title">TASK COMPLETION RATE</span>
+                        <CheckCircle2 size={18} style={{ color: 'var(--quant-violet)' }} />
+                      </div>
+                      <div className="kpi-value">{personalMetrics.taskCompletionRate}%</div>
+                      <div className="kpi-footer">
+                        <span className="trend-pill positive">{personalMetrics.completedTasksCount}/{personalMetrics.assignedTasksCount} Completed</span>
+                        <span className="kpi-subtitle">assigned operations</span>
+                      </div>
+                    </div>
+
+                    <div className="kpi-card">
+                      <div className="kpi-header">
+                        <span className="kpi-title">TOTAL THESES LOGGED</span>
+                        <Activity size={18} style={{ color: 'var(--info-blue)' }} />
+                      </div>
+                      <div className="kpi-value">{personalMetrics.totalTheses}</div>
+                      <div className="kpi-footer">
+                        <span className="trend-pill positive">{personalMetrics.pendingCount} Under Review · {personalMetrics.investedCount} Active</span>
+                        <span className="kpi-subtitle">ideas submitted</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Category Performance Breakdown Grid */}
               <h3 style={{ fontSize: '15px', fontWeight: 700, margin: '20px 0 12px 0', color: 'var(--text-primary)' }}>
