@@ -996,8 +996,7 @@ a {
 .color-dot.pending { background: var(--pending-amber); }
 
 /* Desk Announcement Banner */
-.desk-announcement-card,
-.syndicate-announcement-card {
+.desk-announcement-card {
   background: var(--bg-card);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-lg);
@@ -2377,8 +2376,7 @@ a {
     width: 100%;
   }
 
-  .desk-announcement-card,
-  .syndicate-announcement-card {
+  .desk-announcement-card {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
@@ -2753,5 +2751,53 @@ a {
 
 .pw-req-item.met {
   color: var(--win-green);
+}
+
+/* Access Restricted State */
+.access-restricted-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px;
+  text-align: center;
+  max-width: 580px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.access-restricted-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--loss-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.access-restricted-card h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.access-restricted-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.access-restricted-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 

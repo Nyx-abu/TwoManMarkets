@@ -313,7 +313,7 @@ const INITIAL_STAFF: StaffMember[] = [
     responsibilities: [
       'Polymarket volume & orderbook depth analysis',
       'Crypto derivatives momentum & fee slippage',
-      'Political and regulatory event contract scouting'
+      'Political and regulatory event contract research'
     ],
     permissions: {
       canSubmitResearch: true,
@@ -782,6 +782,8 @@ export default function App() {
   const [researchFilter, setResearchFilter] = useState<'All' | ResearchStatus>('All');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [analyticsTimeframe, setAnalyticsTimeframe] = useState<'7D' | '30D' | '90D' | 'ALL'>('30D');
+  const [analyticsCategoryFilter, setAnalyticsCategoryFilter] = useState<string>('All');
+  const [analyticsStatusFilter, setAnalyticsStatusFilter] = useState<string>('All');
   const [staffStatusFilter, setStaffStatusFilter] = useState<'All' | 'Active' | 'Inactive'>('All');
   const [staffSearchQuery, setStaffSearchQuery] = useState('');
   const [taskAssigneeFilter, setTaskAssigneeFilter] = useState<'All' | 'Mine'>('All');
@@ -797,6 +799,7 @@ export default function App() {
   const [viewStaffModalMember, setViewStaffModalMember] = useState<StaffMember | null>(null);
   const [passwordModalUser, setPasswordModalUser] = useState<StaffMember | null>(null);
   const [newChatModalOpen, setNewChatModalOpen] = useState(false);
+  const [newChatType, setNewChatType] = useState<'dm' | 'channel'>('dm');
 
   // Mobile Task Column Selector ('Pending' | 'In Progress' | 'Completed')
   const [mobileTaskCol, setMobileTaskCol] = useState<'Pending' | 'In Progress' | 'Completed'>('Pending');
@@ -902,6 +905,70 @@ export default function App() {
     const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
     return { total, completed, inProgress, pending, urgent, percent };
   }, [taskList]);
+
+  // Dynamic Chart Configuration based on selected timeframe
+  const chartConfig = useMemo(() => {
+    switch (analyticsTimeframe) {
+      case '7D':
+        return {
+          areaPath: 'M 0,150 C 90,140 180,120 270,125 C 360,100 450,80 540,60 C 620,45 660,35 700,25 L 700,200 L 0,200 Z',
+          linePath: 'M 0,150 C 90,140 180,120 270,125 C 360,100 450,80 540,60 C 620,45 660,35 700,25',
+          terminalY: 25,
+          labels: ['Nov 02', 'Nov 04', 'Nov 05', 'Nov 07', 'Nov 08 (Today)']
+        };
+      case '90D':
+        return {
+          areaPath: 'M 0,185 C 80,180 160,165 240,150 C 320,135 400,120 480,90 C 560,60 630,40 700,18 L 700,200 L 0,200 Z',
+          linePath: 'M 0,185 C 80,180 160,165 240,150 C 320,135 400,120 480,90 C 560,60 630,40 700,18',
+          terminalY: 18,
+          labels: ['Aug 15', 'Sep 01', 'Sep 20', 'Oct 15', 'Nov 08 (Today)']
+        };
+      case 'ALL':
+        return {
+          areaPath: 'M 0,195 C 100,190 200,175 300,145 C 400,115 500,85 600,50 C 650,35 680,25 700,15 L 700,200 L 0,200 Z',
+          linePath: 'M 0,195 C 100,190 200,175 300,145 C 400,115 500,85 600,50 C 650,35 680,25 700,15',
+          terminalY: 15,
+          labels: ['Jan 2026', 'Apr 2026', 'Jul 2026', 'Oct 2026', 'Nov 2026']
+        };
+      case '30D':
+      default:
+        return {
+          areaPath: 'M 0,170 C 60,165 110,150 170,140 C 230,130 280,145 340,110 C 400,75 450,95 510,70 C 580,45 640,35 700,20 L 700,200 L 0,200 Z',
+          linePath: 'M 0,170 C 60,165 110,150 170,140 C 230,130 280,145 340,110 C 400,75 450,95 510,70 C 580,45 640,35 700,20',
+          terminalY: 20,
+          labels: ['Oct 10', 'Oct 18', 'Oct 26', 'Nov 01', 'Nov 08 (Today)']
+        };
+    }
+  }, [analyticsTimeframe]);
+
+  // Dynamic Chat Channels and Direct Messages
+  const publicChannels = useMemo(() => {
+    const channels = Object.keys(chatChannels).filter(k => k.startsWith('#'));
+    const defaultOrder = ['#announcements', '#sports-picks', '#macro-theses', '#general'];
+    const customChannels = channels.filter(c => !defaultOrder.includes(c));
+    return [...defaultOrder.filter(c => channels.includes(c)), ...customChannels];
+  }, [chatChannels]);
+
+  const directMessages = useMemo(() => {
+    const dmKeys = Object.keys(chatChannels).filter(k => !k.startsWith('#'));
+    const staffNames = staffList
+      .filter(s => s.id !== currentUser.id && s.status === 'Active')
+      .map(s => s.name);
+    return Array.from(new Set([...dmKeys, ...staffNames]));
+  }, [chatChannels, staffList, currentUser]);
+
+  const allConversations = useMemo(() => {
+    return [...publicChannels, ...directMessages];
+  }, [publicChannels, directMessages]);
+
+  // Filtered Historical Records for Analytics
+  const filteredHistoricalRecords = useMemo(() => {
+    return researchList.filter(item => {
+      const matchCat = analyticsCategoryFilter === 'All' || item.category === analyticsCategoryFilter;
+      const matchStatus = analyticsStatusFilter === 'All' || item.status === analyticsStatusFilter;
+      return matchCat && matchStatus;
+    });
+  }, [researchList, analyticsCategoryFilter, analyticsStatusFilter]);
 
   // Handlers
   const addAuditLog = (action: string, category: AuditLogItem['category']) => {
@@ -1076,8 +1143,9 @@ export default function App() {
   };
 
   const handleExportCsv = () => {
+    const targetData = filteredHistoricalRecords.length > 0 ? filteredHistoricalRecords : researchList;
     const headers = ['ID', 'Market', 'Category', 'Book', 'Odds', 'Edge', 'Stake', 'Status', 'Profit', 'ROI', 'Author', 'Date'];
-    const rows = researchList.map(r => [
+    const rows = targetData.map(r => [
       r.id,
       `"${r.market.replace(/"/g, '""')}"`,
       r.category,
@@ -1100,7 +1168,7 @@ export default function App() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    addAuditLog('Exported performance data to CSV', 'AUTH');
+    addAuditLog(`Exported ${targetData.length} performance records to CSV`, 'AUTH');
   };
 
   // Filtered views
@@ -1561,25 +1629,23 @@ export default function App() {
 
                       {/* Filled Curve Area */}
                       <path
-                        d="M 0,170 C 60,165 110,150 170,140 C 230,130 280,145 340,110 C 400,75 450,95 510,70 C 580,45 640,35 700,20 L 700,200 L 0,200 Z"
+                        d={chartConfig.areaPath}
                         className="chart-area-fill"
                       />
 
                       {/* Main Trend Line */}
                       <path
-                        d="M 0,170 C 60,165 110,150 170,140 C 230,130 280,145 340,110 C 400,75 450,95 510,70 C 580,45 640,35 700,20"
+                        d={chartConfig.linePath}
                         className="chart-line-stroke"
                       />
 
                       {/* Terminal Point */}
-                      <circle cx="700" cy="20" r="4.5" fill="#10b981" stroke="#09090b" strokeWidth="2" />
+                      <circle cx="700" cy={chartConfig.terminalY} r="4.5" fill="#10b981" stroke="#09090b" strokeWidth="2" />
                     </svg>
                     <div className="chart-axis-labels">
-                      <span>Oct 10</span>
-                      <span>Oct 18</span>
-                      <span>Oct 26</span>
-                      <span>Nov 01</span>
-                      <span>Nov 08 (Today)</span>
+                      {chartConfig.labels.map((lbl, idx) => (
+                        <span key={idx}>{lbl}</span>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -1723,7 +1789,7 @@ export default function App() {
                                 setInvestAmountInput(item.suggestedStake.toString());
                               }}
                             >
-                              Review & Size
+                              {currentUser.role === 'OWNER' ? 'Review & Size' : 'View Details'}
                             </button>
                           </td>
                         </tr>
@@ -1783,7 +1849,7 @@ export default function App() {
                             setInvestAmountInput(item.suggestedStake.toString());
                           }}
                         >
-                          Review &amp; Size
+                          {currentUser.role === 'OWNER' ? 'Review & Size' : 'View Details'}
                         </button>
                       </div>
                     </div>
@@ -2215,7 +2281,7 @@ export default function App() {
                   <div className="chat-channels-list">
                     <div>
                       <div className="chat-group-title">PUBLIC CHANNELS</div>
-                      {['#announcements', '#sports-picks', '#macro-theses', '#general'].map(ch => (
+                      {publicChannels.map(ch => (
                         <button
                           key={ch}
                           className={`channel-btn ${activeChannel === ch ? 'active' : ''}`}
@@ -2229,18 +2295,23 @@ export default function App() {
 
                     <div>
                       <div className="chat-group-title">DIRECT MESSAGES</div>
-                      {['Maya Chen', 'Jordan Lee', 'Sam Rivera', 'Alex (Partner)'].map(name => (
-                        <button
-                          key={name}
-                          className={`channel-btn ${activeChannel === name ? 'active' : ''}`}
-                          onClick={() => setActiveChannel(name)}
-                        >
-                          <div className="user-avatar staff" style={{ width: 18, height: 18, fontSize: 9 }}>
-                            {name.split(' ').map(x => x[0]).join('')}
-                          </div>
-                          <span>{name}</span>
-                        </button>
-                      ))}
+                      {directMessages.map(name => {
+                        const targetStaff = staffList.find(s => s.name === name);
+                        const initials = targetStaff ? targetStaff.initials : name.replace(/[^a-zA-Z]/g, '').slice(0, 2).toUpperCase();
+                        const avatarClass = targetStaff ? targetStaff.avatarClass : 'staff';
+                        return (
+                          <button
+                            key={name}
+                            className={`channel-btn ${activeChannel === name ? 'active' : ''}`}
+                            onClick={() => setActiveChannel(name)}
+                          >
+                            <div className={`user-avatar ${avatarClass}`} style={{ width: 18, height: 18, fontSize: 9 }}>
+                              {initials}
+                            </div>
+                            <span>{name}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </aside>
@@ -2249,7 +2320,7 @@ export default function App() {
                 <div className="chat-main-window">
                   {/* Mobile Channel Quick Switcher */}
                   <div className="mobile-channel-scroller">
-                    {['#announcements', '#sports-picks', '#macro-theses', '#general', 'Maya Chen', 'Jordan Lee', 'Sam Rivera', 'Alex (Partner)'].map(ch => (
+                    {allConversations.map(ch => (
                       <button
                         key={ch}
                         className={`mobile-channel-pill ${activeChannel === ch ? 'active' : ''}`}
@@ -2436,7 +2507,7 @@ export default function App() {
                 <div className="panel-head">
                   <div>
                     <h3 className="panel-title">Analyst Performance Leaderboard</h3>
-                    <p className="panel-desc">Individual research track record, hit rates, and net alpha generated</p>
+                    <p className="panel-desc">Individual research track record, hit rates, and net profit generated</p>
                   </div>
                   <span className="eval-badge">
                     <Award size={13} /> Evaluated Monthly
@@ -2512,23 +2583,66 @@ export default function App() {
                   </button>
                 </div>
 
+                {/* Historical Records Filtering Controls */}
+                <div className="filter-toolbar" style={{ margin: '14px 0' }}>
+                  <div className="category-select-wrap">
+                    <select
+                      className="category-dropdown"
+                      value={analyticsCategoryFilter}
+                      onChange={e => setAnalyticsCategoryFilter(e.target.value)}
+                      aria-label="Filter historical records by category"
+                    >
+                      <option value="All">All Categories</option>
+                      <option value="Sports">Sports</option>
+                      <option value="Macro">Macro</option>
+                      <option value="Crypto">Crypto</option>
+                      <option value="Politics">Politics</option>
+                    </select>
+                  </div>
+                  <div className="category-select-wrap">
+                    <select
+                      className="category-dropdown"
+                      value={analyticsStatusFilter}
+                      onChange={e => setAnalyticsStatusFilter(e.target.value)}
+                      aria-label="Filter historical records by status"
+                    >
+                      <option value="All">All Outcomes &amp; Statuses</option>
+                      <option value="Won">Won Positions</option>
+                      <option value="Lost">Lost Positions</option>
+                      <option value="Invested">Active Invested</option>
+                      <option value="Pending">Pending Review</option>
+                      <option value="Passed">Passed</option>
+                    </select>
+                  </div>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', marginLeft: 'auto' }}>
+                    Showing {filteredHistoricalRecords.length} of {researchList.length} positions
+                  </span>
+                </div>
+
                 <div className="table-responsive">
                   <table className="data-table">
                     <thead>
                       <tr>
-                        <th>Position & Platform</th>
+                        <th>Position &amp; Platform</th>
                         <th>Category</th>
                         <th>Odds</th>
                         <th>Edge</th>
                         <th>Invested Stake</th>
-                        <th>Net P&L</th>
+                        <th>Net P&amp;L</th>
                         <th>ROI</th>
                         <th>Outcome</th>
                         <th>Analyst</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {researchList.map(item => (
+                      {filteredHistoricalRecords.length === 0 ? (
+                        <tr>
+                          <td colSpan={9} style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>
+                            No historical positions match the selected filters.
+                          </td>
+                        </tr>
+                      ) : (
+                        filteredHistoricalRecords.map(item => (
                         <tr key={item.id}>
                           <td>
                             <span className="table-market-title">{item.market}</span>
@@ -2553,7 +2667,7 @@ export default function App() {
                           </td>
                           <td>{item.author}</td>
                         </tr>
-                      ))}
+                      )))}
                     </tbody>
                   </table>
                 </div>
@@ -2656,7 +2770,9 @@ export default function App() {
                             {member.metrics.winRate.toFixed(1)}%
                           </td>
                           <td>
-                            {Math.round((member.metrics.tasksCompleted / member.metrics.tasksTotal) * 100)}% ({member.metrics.tasksCompleted}/{member.metrics.tasksTotal})
+                            {member.metrics.tasksTotal > 0
+                              ? `${Math.round((member.metrics.tasksCompleted / member.metrics.tasksTotal) * 100)}% (${member.metrics.tasksCompleted}/${member.metrics.tasksTotal})`
+                              : `0% (0/0)`}
                           </td>
                           <td>
                             <span className={`status-pill ${member.status === 'Active' ? 'won' : 'inactive'}`}>
@@ -2766,8 +2882,9 @@ export default function App() {
           {/* ==============================================================
               PAGE 7: ADMIN SETTINGS & GOVERNANCE
               ============================================================== */}
-          {activeTab === 'admin' && currentUser.role === 'OWNER' && (
-            <div>
+          {activeTab === 'admin' && (
+            currentUser.role === 'OWNER' ? (
+              <div>
               <div className="page-header">
                 <div className="page-title-group">
                   <h1>Admin Settings & Team Governance</h1>
@@ -2826,7 +2943,9 @@ export default function App() {
                           <td style={{ fontSize: '12px' }}>{member.joinedDate}</td>
                           <td style={{ fontSize: '12px' }}>{member.lastActive}</td>
                           <td style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
-                            {member.role === 'OWNER' ? 'Full System Authority (6/6)' : 'Standard Analyst Access (4/6)'}
+                            {member.role === 'OWNER'
+                              ? `Full Admin Access (${Object.values(member.permissions).filter(Boolean).length}/6)`
+                              : `Analyst Permissions (${Object.values(member.permissions).filter(Boolean).length}/6)`}
                           </td>
                           <td>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -2902,7 +3021,9 @@ export default function App() {
                         </div>
                         <div className="mobile-metric-item">
                           <span className="metric-lbl">Access</span>
-                          <span className="metric-val" style={{ fontSize: '11px' }}>{member.role === 'OWNER' ? '6/6' : '4/6'}</span>
+                          <span className="metric-val" style={{ fontSize: '11px' }}>
+                            {Object.values(member.permissions).filter(Boolean).length}/6
+                          </span>
                         </div>
                       </div>
 
@@ -3003,11 +3124,11 @@ export default function App() {
               <div className="panel-card" style={{ marginBottom: '24px' }}>
                 <div className="panel-head">
                   <div>
-                    <h3 className="panel-title">Role-Based Access Control (RBAC) Matrix</h3>
+                    <h3 className="panel-title">Role-Based Access Control (RBAC) Permissions</h3>
                     <p className="panel-desc">Security model separating Owner privileges from Staff Analysts</p>
                   </div>
                   <span className="status-pill won">
-                    <ShieldCheck size={14} /> Zero-Trust Security Active
+                    <ShieldCheck size={14} /> Security Controls Active
                   </span>
                 </div>
 
@@ -3100,6 +3221,37 @@ export default function App() {
                 </div>
               </div>
             </div>
+            ) : (
+              <div className="access-restricted-card">
+                <div className="access-restricted-icon">
+                  <ShieldCheck size={30} />
+                </div>
+                <h2>Access Restricted</h2>
+                <p>
+                  You are currently viewing TwoManMarkets as <strong>{currentUser.name}</strong> ({currentUser.title}).
+                  Admin Settings, staff provisioning, and company announcement broadcasts are restricted to Co-Owner accounts.
+                </p>
+                <div className="access-restricted-actions">
+                  <button
+                    className="btn-primary"
+                    onClick={() => {
+                      const owner = staffList.find(s => s.role === 'OWNER') || INITIAL_STAFF[0];
+                      setCurrentUser(owner);
+                    }}
+                  >
+                    <Crown size={15} />
+                    <span>Switch to Owner Perspective (Luis)</span>
+                  </button>
+                  <button
+                    className="btn-secondary"
+                    onClick={() => setActiveTab('overview')}
+                  >
+                    <LayoutDashboard size={15} />
+                    <span>Return to Dashboard</span>
+                  </button>
+                </div>
+              </div>
+            )
           )}
 
           {/* ==============================================================
@@ -3513,7 +3665,9 @@ export default function App() {
                           }}
                         >
                           <CheckCircle2 size={16} />
-                          <span>Mark Settle WON (+$1,365 Net P&amp;L)</span>
+                          <span>
+                            Mark Settle WON (+${Math.round(reviewModalItem.actualInvested * 0.91).toLocaleString()} Net P&amp;L)
+                          </span>
                         </button>
 
                         <button
@@ -3577,18 +3731,23 @@ export default function App() {
                 const priority = (formData.get('priority') as any) || 'Medium';
                 const dueDate = (formData.get('dueDate') as string) || 'Due Friday';
 
+                const targetStaff = staffList.find(s => s.name === assignee);
+                const initials = targetStaff
+                  ? targetStaff.initials
+                  : assignee.replace(/[^a-zA-Z]/g, '').slice(0, 2).toUpperCase();
+
                 const newTask: TaskItem = {
                   id: `task-${Date.now()}`,
                   title,
                   description: desc,
                   assignee,
-                  assigneeInitials: assignee.split(' ').map(x => x[0]).join(''),
+                  assigneeInitials: initials,
                   dueDate,
                   priority,
                   status: 'Pending'
                 };
 
-                setTaskList([...taskList, newTask]);
+                setTaskList(prev => [newTask, ...prev]);
                 addAuditLog(`Created task "${title}" assigned to ${assignee}`, 'TASK');
                 setNewTaskModalOpen(false);
               }}
@@ -3864,7 +4023,7 @@ export default function App() {
                     />
                     <div className="permission-toggle-text">
                       <strong>Submit Research Theses</strong>
-                      <p>Can scout prediction markets and submit research for review</p>
+                      <p>Can research prediction markets and submit theses for review</p>
                     </div>
                   </label>
 
@@ -3989,7 +4148,7 @@ export default function App() {
                   <span className="profile-metric-val">{viewStaffModalMember.metrics.thesesCount}</span>
                 </div>
                 <div className="profile-metric-box">
-                  <span className="profile-metric-lbl">Net Profit Alpha</span>
+                  <span className="profile-metric-lbl">Net Profit</span>
                   <span className="profile-metric-val green">
                     +${viewStaffModalMember.metrics.netProfit.toLocaleString()}
                   </span>
@@ -4213,19 +4372,17 @@ export default function App() {
               onSubmit={e => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
-                const type = formData.get('type') as string;
-                const name = (formData.get('name') as string).trim();
+                const rawName = ((formData.get('name') as string) || '').trim();
+                if (!rawName) return;
 
-                const channelKey = type === 'channel'
-                  ? (name.startsWith('#') ? name : `#${name}`)
-                  : name;
+                const channelKey = newChatType === 'channel'
+                  ? (rawName.startsWith('#') ? rawName : `#${rawName.toLowerCase().replace(/\s+/g, '-')}`)
+                  : rawName;
 
-                if (!chatChannels[channelKey]) {
-                  setChatChannels({
-                    ...chatChannels,
-                    [channelKey]: []
-                  });
-                }
+                setChatChannels(prev => {
+                  if (prev[channelKey]) return prev;
+                  return { ...prev, [channelKey]: [] };
+                });
                 setActiveChannel(channelKey);
                 setActiveTab('chat');
                 setNewChatModalOpen(false);
@@ -4233,22 +4390,42 @@ export default function App() {
             >
               <div className="form-group">
                 <label className="form-label">Conversation Type</label>
-                <select name="type" className="form-select">
+                <select
+                  name="type"
+                  className="form-select"
+                  value={newChatType}
+                  onChange={e => setNewChatType(e.target.value as 'dm' | 'channel')}
+                >
                   <option value="dm">Direct Message with Team Member</option>
                   <option value="channel">New Topic Channel</option>
                 </select>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Select Staff Member or Enter Channel Name *</label>
-                <input
-                  name="name"
-                  className="form-input"
-                  placeholder="e.g. Maya Chen or #arbitrage-alerts"
-                  defaultValue="Maya Chen"
-                  required
-                />
-              </div>
+              {newChatType === 'dm' ? (
+                <div className="form-group">
+                  <label className="form-label">Select Team Member *</label>
+                  <select name="name" className="form-select" required>
+                    {staffList
+                      .filter(s => s.id !== currentUser.id && s.status === 'Active')
+                      .map(s => (
+                        <option key={s.id} value={s.name}>
+                          {s.name} ({s.title.split('·')[0].trim()})
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              ) : (
+                <div className="form-group">
+                  <label className="form-label">Channel Name *</label>
+                  <input
+                    name="name"
+                    className="form-input"
+                    placeholder="e.g. #arbitrage-alerts or #college-hoops"
+                    defaultValue="#arbitrage-alerts"
+                    required
+                  />
+                </div>
+              )}
 
               <div className="modal-footer">
                 <button type="button" className="btn-secondary" onClick={() => setNewChatModalOpen(false)}>

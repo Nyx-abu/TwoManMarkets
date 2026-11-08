@@ -95,7 +95,7 @@ try {
   await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Task')); if (btn) btn.click(); })()`);
   await capture('remodeled-desktop-tasks');
 
-  // Click Syndicate Chat
+  // Click Team Chat
   await evaluate(`(() => { const btn = [...document.querySelectorAll('.nav-link')].find(b => b.textContent.includes('Chat')); if (btn) btn.click(); })()`);
   await capture('remodeled-desktop-chat');
 

@@ -1,7 +1,7 @@
 # TwoManMarkets — Local Operating Summary & Architecture Remodel
 
 ## 1. Context & North Star
-- **Client**: Luis (`luisballin`), Co-Owner of **TwoManMarkets** (sports & prediction market investment syndicate).
+- **Client**: Luis (`luisballin`), Co-Owner of **TwoManMarkets** (sports & prediction market proprietary investment desk).
 - **Core Loop**: Staff researchers analyze prediction markets (Polymarket, Kalshi, sportsbooks) and submit trade theses. The two co-owners evaluate, allocate capital, invest externally, and track settlements (Won/Lost/P&L/ROI).
 - **Goal**: Deliver a world-class, believable, high-conviction client preview to deploy to Vercel and present to Luis today.
 - **Client Persona**: Non-developer executive. Needs an intuitive, high-confidence experience with an executive architecture blueprint that translates technical credibility into business peace-of-mind.
